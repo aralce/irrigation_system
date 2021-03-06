@@ -2,15 +2,19 @@
  * zonesGatekeeper_internal.h
  *
  *  Created on: 3 mar. 2021
- *      Author: ariel
+ *      Author: Ariel
  */
 
 #ifndef ZONESGATEKEEPER_PRIVATE_ZONESGATEKEEPER_INTERNAL_H_
 #define ZONESGATEKEEPER_PRIVATE_ZONESGATEKEEPER_INTERNAL_H_
 
 /* Includes -------------------------------------------------------------------------------------------------*/
-#include "sensorsGatekeeper_drivers.h"
 #include "../../config/configuration.h"
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <cmsis_os.h>
+#include <string.h>
 
 /* Typedefs -------------------------------------------------------------------------------------------------*/
 
@@ -19,69 +23,48 @@ typedef enum
   withoutOperation,
   getName,
   setName,
-  getType,
-  setType,
-  getMeasureInterval,
-  setMeasureInterval,
-  getMeasure
-}enum_sensor_operationType;
+  getState,
+  setState
+}enum_zone_operationType;
+
+typedef enum
+{
+  ON,
+  OFF
+}enum_zone_state;
 
 typedef enum
 {
   OK,
   INVALID_ID,
   INVALID_NAME,
-  INVALID_SENSOR_TYPE,
-  INVALID_MEASURE_INTERVAL,
-
-}enum_sensorOrderError;
-
-
-/**
- * @brief Estructura básica de medición
- *
- * Se utiliza para los datos leídos de la medición. Tendrá siempre un valor de medida
- * y un timestamp medido en ticks del sistema.
- */
-typedef struct{
-  uint32_t value;
-  uint32_t timestamp;
-}struct_sensor_measure;
+}enum_zonesOrderError;
 
 
 
 /*Public variables --------------------------------------------------------------------------------------------*/
 
 
-/*tskSensorsGatekeeper*/
-extern osThreadId_t tskSensorsGatekeeperHandle;
-extern const osThreadAttr_t tskSensorsGatekeeper_attributes;
+/*tskZonesGatekeeper*/
+extern osThreadId_t tskZonesGatekeeperHandle;
+extern const osThreadAttr_t tskZonesGatekeeper_attributes;
 
 /*Queues for INPUT and OUTPUT data*/
 /*qSensorsGatekeeperIN */
-extern osMessageQueueId_t qSensorsGatekeeperINHandle;
-extern const osMessageQueueAttr_t qSensorsGatekeeperIN_attributes;
+extern osMessageQueueId_t qZonesGatekeeperINHandle;
+extern const osMessageQueueAttr_t qZonesGatekeeperIN_attributes;
 /*qSensorsGetekeeperOUT */
-extern osMessageQueueId_t qSensorsGatekeeperOUTHandle;
-extern const osMessageQueueAttr_t qSensorsGetekeeperOUT_attributes;
-
-/*to work with timer callback*/
-uint32_t timerID[MAX_SENSOR_ID];
-
-/*Sensors Timers*/
-extern osTimerId_t timer_sensorHandle[MAX_SENSOR_ID];
-extern const osTimerAttr_t timer_sensor_attributes[MAX_SENSOR_ID];
+extern osMessageQueueId_t qZonesGatekeeperOUTHandle;
+extern const osMessageQueueAttr_t qZonesGatekeeperOUT_attributes;
 
 
 
 
 /*Public functions --------------------------------------------------------------------------------------------*/
 
-void sensorsGatekeeper_init( );
+void zonesGatekeeper_init( );
 
-void sensorsGatekeeper_task( void* parameters);
-
-void sensorsGatekeeper_takeMeasure( void* sensorID );
+void zonesGatekeeper_task( void* parameters);
 
 
 #endif /* ZONESGATEKEEPER_PRIVATE_ZONESGATEKEEPER_INTERNAL_H_ */
