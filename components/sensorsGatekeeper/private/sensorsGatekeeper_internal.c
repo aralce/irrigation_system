@@ -7,7 +7,6 @@
 
 #include "sensorsGatekeeper_internal.h"
 #include "cmsis_os.h"
-#include "../../config/configuration.h"
 
 
 /*Public variables --------------------------------------------------------------------------------------------*/
@@ -78,7 +77,7 @@ sensor_measureDriverfunction_t takeMeasureFromSensor[MAX_SENSOR_ID];
 
 
 
-/*Private function definitions ----------------------------------------------------------------------------------*/
+/*Private function declaration ----------------------------------------------------------------------------------*/
 inline uint32_t HAL_secondsToTicks( uint32_t seconds ){
   uint32_t returnValue = 0;
   uint32_t comparator = ~0; /*sets comparator to the max value permitted to a uint32_t variable*/

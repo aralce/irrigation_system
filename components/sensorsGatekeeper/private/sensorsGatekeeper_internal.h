@@ -62,7 +62,7 @@ extern osMessageQueueId_t qSensorsGatekeeperINHandle;
 extern const osMessageQueueAttr_t qSensorsGatekeeperIN_attributes;
 /*qSensorsGetekeeperOUT */
 extern osMessageQueueId_t qSensorsGatekeeperOUTHandle;
-extern const osMessageQueueAttr_t qSensorsGetekeeperOUT_attributes;
+extern const osMessageQueueAttr_t qSensorsGatekeeperOUT_attributes;
 
 /*to work with timer callback*/
 uint32_t timerID[MAX_SENSOR_ID];
