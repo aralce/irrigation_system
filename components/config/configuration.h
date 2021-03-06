@@ -8,9 +8,9 @@
 #ifndef CONFIG_CONFIGURATION_H_
 #define CONFIG_CONFIGURATION_H_
 
+#define MAX_NAME_SIZE 16 /*maximum number of characters in sensor name and zone name*/
 
 /*SensorGatekeeper Defines ---------------------------------------------------------------------------------------------*/
-#define MAX_NAME_SIZE 16 /*maximum number of characters in sensor name*/
 #define MAX_SENSOR_ID 6  /*maximum valid sensors*/
 #define MAX_MEASURE_INTERVAL 60 /*maximum valid measure interval in seconds*/
 
@@ -18,7 +18,7 @@
 
 
 /*ZonesGatekeeper Defines ----------------------------------------------------------------------------------------------*/
-#define MAX_NAME_SIZE 16 /*maximun number of characters in zone name*/
+#define MAX_ZONE_ID 6 /*maximum valid zones*/
 
 
 #endif /* CONFIG_CONFIGURATION_H_ */
