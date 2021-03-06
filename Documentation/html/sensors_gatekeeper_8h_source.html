@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>&#x202A;Sistema de Control y Monitoreo de Riego: Etapa 1: &#x202A;Fichero Fuente C:/Escritorio/Especializacion/Proyecto de especializacion/control_de_riego/components/sensorsGatekeeper/sensorsGatekeeper.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">&#x202A;Sistema de Control y Monitoreo de Riego: Etapa 1
+   &#160;<span id="projectnumber">0.1</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_409f97388efe006bc3438b95e9edef48.html">&#x202A;components</a></li><li class="navelem"><a class="el" href="dir_aefb46660925f100dc8a97c07e1702e3.html">&#x202A;sensorsGatekeeper</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">sensorsGatekeeper.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="sensors_gatekeeper_8h.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * sensorsGatekeeper.h</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *  Created on: 9 ene. 2021</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *      Author: Ariel</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef SENSORSGATEKEEPER_SENSORSGATEKEEPER_H_</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define SENSORSGATEKEEPER_SENSORSGATEKEEPER_H_</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">/* Includes ------------------------------------------------------------------*/</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;stm32f4xx_hal.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;cmsis_os.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/* Typedefs ------------------------------------------------------------------*/</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41d">   28</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">enum</span>{ <span class="comment">/*max quantity of sensors types: 255 */</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41dab11adb4a04a63d8f253f96c26736af80">   29</a></span>&#160;    <a class="code" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41dab11adb4a04a63d8f253f96c26736af80">noSensor</a>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41da646a65ffce62accc20b934c3eb523a6b">   30</a></span>&#160;    <a class="code" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41da646a65ffce62accc20b934c3eb523a6b">analog</a>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41daacfdc80097a34d358718440f4317f5a3">rs485</a></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41daacfdc80097a34d358718440f4317f5a3">   32</a></span>&#160;}<a class="code" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41d">enum_sensor_type</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="structstruct__sensor__measure.html">   41</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="structstruct__sensor__measure.html#ae7f66047e6e39ba2bb6af8b95f00d1dd">   42</a></span>&#160;    uint32_t <a class="code" href="structstruct__sensor__measure.html#ae7f66047e6e39ba2bb6af8b95f00d1dd">value</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="structstruct__sensor__measure.html#ab20b0c7772544cf5d318507f34231fbe">   43</a></span>&#160;    uint32_t <a class="code" href="structstruct__sensor__measure.html#ab20b0c7772544cf5d318507f34231fbe">timestamp</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}<a class="code" href="structstruct__sensor__measure.html">struct_sensor_measure</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">/*Public functions -------------------------------------------------------------*/</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> <a class="code" href="sensors_gatekeeper_8h.html#a041a8841ac99554f013522619286e8d4">sensorsGatekeeper_init</a>(osMessageQueueId_t *qSensorsGatekeeperINHandle);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#aaf06b6785bdc15fe1a09f985cf13403e">sensorsGatekeeper_getName</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a040658d9002a42c29cfaf6f8befe7e53">sensorsGatekeeper_setName</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>, <span class="keywordtype">char</span> *<a class="code" href="sensors_gatekeer_8c.html#a22bb01ca232af93f1677cbd4e6360dfe">sensorName</a>); <span class="comment">/*returns True if OK, else False. Máx characters 16*/</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a5fa19662898475e5c752d5d675befd09">sensorsGatekeeper_getType</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a1882d989f6481cfc607dde9b95e0ea28">sensorsGatekeeper_setType</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>, <a class="code" href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41d">enum_sensor_type</a> sensorType); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a6b47c1b31760d08d48d8c882bdc1811c">sensorsGatekeeper_getMeasureInterval</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a94ba5e3122fd89819501f1b0dfd56d24">sensorsGatekeeper_setMeasureInterval</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="sensors_gatekeeper_8h.html#a0e74c58d8fd8f9aa080458dfc15762fd">sensorsGatekeeper_getMeasure</a>(uint8_t <a class="code" href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a>, <a class="code" href="structstruct__sensor__measure.html">struct_sensor_measure</a> measure ); <span class="comment">/*returns True if OK, else False*/</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SENSORSGATEKEEPER_SENSORSGATEKEEPER_H_ */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a040658d9002a42c29cfaf6f8befe7e53"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a040658d9002a42c29cfaf6f8befe7e53">sensorsGatekeeper_setName</a></div><div class="ttdeci">bool sensorsGatekeeper_setName(uint8_t ID, char *sensorName)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:151</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a041a8841ac99554f013522619286e8d4"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a041a8841ac99554f013522619286e8d4">sensorsGatekeeper_init</a></div><div class="ttdeci">void sensorsGatekeeper_init(osMessageQueueId_t *qSensorsGatekeeperINHandle)</div><div class="ttdoc">Inicializa el Gatekeeper.</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:94</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a09746a2f2a76309d5e03754194bcc41d"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41d">enum_sensor_type</a></div><div class="ttdeci">enum_sensor_type</div><div class="ttdoc">Clasifica el tipo de sensor.</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:28</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a09746a2f2a76309d5e03754194bcc41da646a65ffce62accc20b934c3eb523a6b"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41da646a65ffce62accc20b934c3eb523a6b">analog</a></div><div class="ttdeci">@ analog</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:30</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a09746a2f2a76309d5e03754194bcc41daacfdc80097a34d358718440f4317f5a3"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41daacfdc80097a34d358718440f4317f5a3">rs485</a></div><div class="ttdeci">@ rs485</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:31</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a09746a2f2a76309d5e03754194bcc41dab11adb4a04a63d8f253f96c26736af80"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a09746a2f2a76309d5e03754194bcc41dab11adb4a04a63d8f253f96c26736af80">noSensor</a></div><div class="ttdeci">@ noSensor</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:29</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a0e74c58d8fd8f9aa080458dfc15762fd"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a0e74c58d8fd8f9aa080458dfc15762fd">sensorsGatekeeper_getMeasure</a></div><div class="ttdeci">bool sensorsGatekeeper_getMeasure(uint8_t ID, struct_sensor_measure measure)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:198</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a1882d989f6481cfc607dde9b95e0ea28"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a1882d989f6481cfc607dde9b95e0ea28">sensorsGatekeeper_setType</a></div><div class="ttdeci">bool sensorsGatekeeper_setType(uint8_t ID, enum_sensor_type sensorType)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:180</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a5fa19662898475e5c752d5d675befd09"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a5fa19662898475e5c752d5d675befd09">sensorsGatekeeper_getType</a></div><div class="ttdeci">bool sensorsGatekeeper_getType(uint8_t ID)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:174</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a6b47c1b31760d08d48d8c882bdc1811c"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a6b47c1b31760d08d48d8c882bdc1811c">sensorsGatekeeper_getMeasureInterval</a></div><div class="ttdeci">bool sensorsGatekeeper_getMeasureInterval(uint8_t ID)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:186</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_a94ba5e3122fd89819501f1b0dfd56d24"><div class="ttname"><a href="sensors_gatekeeper_8h.html#a94ba5e3122fd89819501f1b0dfd56d24">sensorsGatekeeper_setMeasureInterval</a></div><div class="ttdeci">bool sensorsGatekeeper_setMeasureInterval(uint8_t ID)</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:192</div></div>
+<div class="ttc" id="asensors_gatekeeper_8h_html_aaf06b6785bdc15fe1a09f985cf13403e"><div class="ttname"><a href="sensors_gatekeeper_8h.html#aaf06b6785bdc15fe1a09f985cf13403e">sensorsGatekeeper_getName</a></div><div class="ttdeci">bool sensorsGatekeeper_getName(uint8_t ID)</div><div class="ttdoc">Obtiene el nombre del Sensor.</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:144</div></div>
+<div class="ttc" id="asensors_gatekeer_8c_html_a22bb01ca232af93f1677cbd4e6360dfe"><div class="ttname"><a href="sensors_gatekeer_8c.html#a22bb01ca232af93f1677cbd4e6360dfe">sensorName</a></div><div class="ttdeci">char sensorName[MAX_NAME_SIZE+1]</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:62</div></div>
+<div class="ttc" id="asensors_gatekeer_8c_html_ae05e4021c05cb62085215a5b3d03c0bc"><div class="ttname"><a href="sensors_gatekeer_8c.html#ae05e4021c05cb62085215a5b3d03c0bc">ID</a></div><div class="ttdeci">uint8_t ID</div><div class="ttdef"><b>Definition:</b> sensorsGatekeer.c:61</div></div>
+<div class="ttc" id="astructstruct__sensor__measure_html"><div class="ttname"><a href="structstruct__sensor__measure.html">struct_sensor_measure</a></div><div class="ttdoc">Estructura básica de medición.</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:41</div></div>
+<div class="ttc" id="astructstruct__sensor__measure_html_ab20b0c7772544cf5d318507f34231fbe"><div class="ttname"><a href="structstruct__sensor__measure.html#ab20b0c7772544cf5d318507f34231fbe">struct_sensor_measure::timestamp</a></div><div class="ttdeci">uint32_t timestamp</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:43</div></div>
+<div class="ttc" id="astructstruct__sensor__measure_html_ae7f66047e6e39ba2bb6af8b95f00d1dd"><div class="ttname"><a href="structstruct__sensor__measure.html#ae7f66047e6e39ba2bb6af8b95f00d1dd">struct_sensor_measure::value</a></div><div class="ttdeci">uint32_t value</div><div class="ttdef"><b>Definition:</b> sensorsGatekeeper.h:42</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

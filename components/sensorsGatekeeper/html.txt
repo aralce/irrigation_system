@@ -1,0 +1,7 @@
+/**
+ * @mainPage Descripción General
+ *           Documentación para realizar el seguimiento de la implementación
+ * de la ETAPA 1 del proyecto.
+ * 
+ * Actualmente se está implementando la tarea sensorsGatekeeper.
+ */
