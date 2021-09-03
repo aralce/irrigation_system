@@ -14,9 +14,6 @@ Author: Cerfoglia Ariel
 ### 1. INTRODUCTION
 #### 1.1. Purpose
 ### 2. OVERALL DESCRIPTION  
-#### 2.1 Product perspective
-#### 2.2 Product functions
-#### 2.3 Design/implementation constraints
 ### 3. SPECIFIC REQUERIMENTS
 #### 3.1 External interfaces
 ##### 3.1.1 User interfaces
@@ -35,6 +32,26 @@ Author: Cerfoglia Ariel
   The design criteria and arquitecture is exposed to show and guide the development process.  
 
 ## 2.Overall description  
+The main responsabilities of the control and monitoring system are:
+- Be capable of comunicatte througth a LoRaWAN net.
+- Manage an auxiliary source subsystem when the 220/110 Vac is not available
+- Manage presion sensors(max 8)
+- Manage electro valves and a pump.
+- Warning about failures.
+  ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)  
   
-  
-  
+## 3. SPECIFIC REQUERIMENTS
+#### 3.1 External interfaces
+#### 3.1.1 User interfaces
+#### 3.1.2 Hardware interfaces
+#### 3.1.3 Software interfaces
+#### 3.1.4 Communication protocols and interfaces
+
+### 3.2 Functional requeriments
+##### 3.2.1 FR1-SENSORS
+###### 3.2.1.1 *Requeriment:* The system have a maximun of 8 presion sensors.
+###### 3.2.1.2 *Description:* --
+###### 3.2.1.3
+
+### 3.3 Use cases
+### 3.4 Classes / Objects
