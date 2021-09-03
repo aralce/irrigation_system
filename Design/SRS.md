@@ -34,8 +34,8 @@ Author: Cerfoglia Ariel
 ## 2.Overall description  
 The main responsabilities of the control and monitoring system are:
 - Be capable of comunicatte througth a LoRaWAN net.
-- Manage an auxiliary source subsystem when the 220/110 Vac is not available
-- Manage presion sensors(max 8)
+- Manage an auxiliary source subsystem when the 220/110 Vac is not available.
+- Manage presion sensors.
 - Manage electro valves and a pump.
 - Warning about failures.
   ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)  
