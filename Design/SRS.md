@@ -48,10 +48,12 @@ The main responsabilities of the control and monitoring system are:
 #### 3.1.4 Communication protocols and interfaces
 
 ### 3.2 Functional requeriments
-##### 3.2.1 FR1-SENSORS
+##### 3.2.1 SENSORS-FR1
 ###### 3.2.1.1 *Requeriment:* The system have a maximun of 8 presion sensors.
-###### 3.2.1.2 *Description:* --
-###### 3.2.1.3
+##### 3.2.2 SENSORS-FR2
+###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 0-20mA
+##### 3.2.3 SENSORS-FR3
+###### 3.2.3.1 *Requeriment:* Each sensor can be configured independently from others.
 
 ### 3.3 Use cases
 ### 3.4 Classes / Objects
