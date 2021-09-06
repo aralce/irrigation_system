@@ -54,6 +54,18 @@ The main responsabilities of the control and monitoring system are:
 ###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 0-20mA
 ##### 3.2.3 SENSORS-FR3
 ###### 3.2.3.1 *Requeriment:* Each sensor can be configured independently from others.
+##### 3.2.4 ELECTRO-VALVE-FR1
+###### 3.2.4.1 *Requeriment:* The system have a maximun of 8 electro-valves
+##### 3.2.5 ELECTRO-VALVE-FR2
+###### 3.2.5.1 *Requeriment:* The user can indicate how many liters per minute each valve pulls
+##### 3.2.6 ELECTRO-VALVE-FR3
+###### 3.2.6.1 *Requeriment:* Only one electro-valve can be open each time. 
+###### 3.2.6.2 *Description:* The sequense of transition is: valve_1 is open, valve_2 is opened, valve_1 is closed.
+##### 3.2.7 PUMP-FR1
+###### 3.2.7.1 *Requeriment:* The pump is activated only if there is an electro-valve open.
+##### 3.2.8 PUMP-FR2
+###### 3.2.8.1 *Requeriment:* Before close all electro-valves, the pump is desactivated.
+
 
 ### 3.3 Use cases
 ### 3.4 Classes / Objects
