@@ -65,7 +65,18 @@ The main responsabilities of the control and monitoring system are:
 ###### 3.2.7.1 *Requeriment:* The pump is activated only if there is an electro-valve open.
 ##### 3.2.8 PUMP-FR2
 ###### 3.2.8.1 *Requeriment:* Before close all electro-valves, the pump is desactivated.
-
+##### 3.2.9 POWER_SYSTEM-FR1
+###### 3.2.9.1 *Requeriment:* If voltage <= 0,7*220Vac then the primary power system is desactivated and secondary power system is activated.
+##### 3.2.10 POWER_SYSTEM-FR2
+###### 3.2.10.1 *Requeriment:* If voltage >= 0,8*220Vac then the secondary power system is activated and primary power system is activated.
+##### 3.2.11 POWER_SYSTEM-FR3
+###### 3.2.11.1 *Requeriment:* If secondary power system is active then the system is low consumption.
+###### 3.2.11.2 *Description:* In low consumption only alarm system and communication system are active. Secondary power system can be active for a week.
+##### 3.2.12 CONTROL_UNIT-FR1
+###### 3.2.12.1 *Requeriment:* For each electro-valve the system can irrigate the irrigation zone with a weekly calendar.
+###### 3.2.12.2 *Description:* On the calendar the user can select the day and starting hour. The time of irrigation is expresed as minutes or as liters.
+##### 3.2.13 CONTROL_UNIT-FR2
+###### 3.2.12.1 *Requeriment:* The user can manually irrigate an irrigation zone ONLY if there is no connection with server. The manual irrigation has priority over calendar irrigation.
 
 ### 3.3 Use cases
 ### 3.4 Classes / Objects
