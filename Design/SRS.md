@@ -51,7 +51,7 @@ The main responsabilities of the control and monitoring system are:
 ##### 3.2.1 SENSORS-FR1
 ###### 3.2.1.1 *Requeriment:* The system have a maximun of 8 presion sensors.
 ##### 3.2.2 SENSORS-FR2
-###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 0-20mA
+###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 4-20mA
 ##### 3.2.3 SENSORS-FR3
 ###### 3.2.3.1 *Requeriment:* Each sensor can be configured independently from others.
 ##### 3.2.4 ELECTRO-VALVE-FR1
@@ -77,10 +77,12 @@ The main responsabilities of the control and monitoring system are:
 ###### 3.2.12.2 *Description:* On the calendar the user can select the day and starting hour. The time of irrigation is expresed as minutes or as liters.
 ##### 3.2.13 CONTROL_UNIT-FR2
 ###### 3.2.12.1 *Requeriment:* The user can manually irrigate an irrigation zone ONLY if there is no connection with server. The manual irrigation has priority over calendar irrigation.
-##### 3.2.14 COMMUNICATION_UNIT-FR1
-###### 3.2.14.1 *Requeriment:* The communication unit must send orders and configurations from server to system. The success or failure of orders and configurations must be sent from system to server.
-##### 3.2.15 COMMUNICATION_UNIT-FR2
-###### 3.2.15.1 *Requeriment:* The communication unit must send the system state from server to system.
+##### 3.2.14 CONTROL_UNIT-FR3
+###### 3.2.14.1 *Requeriment:* On rainy days the system have to cancel the irrigation orders for that day.
+##### 3.2.15 COMMUNICATION_UNIT-FR1
+###### 3.2.15.1 *Requeriment:* The communication unit must send orders and configurations from server to system. The success or failure of orders and configurations must be sent from system to server.
+##### 3.2.16 COMMUNICATION_UNIT-FR2
+###### 3.2.16.1 *Requeriment:* The communication unit must send the system state from server to system.
 
 
 ### 3.3 Use cases
