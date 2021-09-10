@@ -39,14 +39,15 @@ The main responsabilities of the control and monitoring system are:
 - Manage electro valves and a pump.
 - Warning about failures.
   ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)  
-  
+
+----------------------------------------------
 ## 3. SPECIFIC REQUERIMENTS
 #### 3.1 External interfaces
 #### 3.1.1 User interfaces
 #### 3.1.2 Hardware interfaces
 #### 3.1.3 Software interfaces
 #### 3.1.4 Communication protocols and interfaces
-
+----------------------------------------------
 ### 3.2 Functional requeriments
 ##### 3.2.1 SENSORS-FR1
 ###### 3.2.1.1 *Requeriment:* The system have a maximun of 8 presion sensors.
@@ -83,7 +84,34 @@ The main responsabilities of the control and monitoring system are:
 ###### 3.2.15.1 *Requeriment:* The communication unit must send orders and configurations from server to system. The success or failure of orders and configurations must be sent from system to server.
 ##### 3.2.16 COMMUNICATION_UNIT-FR2
 ###### 3.2.16.1 *Requeriment:* The communication unit must send the system state from server to system.
-
+----------------------------------------------
 
 ### 3.3 Use cases
+----------------------------------------------
 ### 3.4 Classes / Objects
+The class diagram of the whole system is:  
+
+![Main](https://user-images.githubusercontent.com/72839552/132791982-6f6034d5-d710-4273-be81-0798c64e9c6c.jpg)
+
+The Control Unit is the system core, so its simplified composition is shown here.
+Each irrigation zone has an electrovalve to irrigate and a unique pump which is shared by all irigation zones.
+Electrovalve and pump can have a sensor. The irrigation zone use these measures to determine the healthy of the pipe.
+
+The Power Unit is responsible to sense the principal power source and determine if it's necessary to switch to the secondary power source.
+
+The Communication Unit is responsible to bring and send data from and to server. Also, must to share with the control unit the healthy of conexion.
+
+----------------------------------------------
+
+#### 3.4.1 Control Unit
+##### The responsibilities of the control unit class are:
+##### - Manage irrigation routines.
+##### - Manage manual irrigation.
+##### - Communicate system status.
+##### - Set system on low power state if is requested by power unit.
+
+##### The class diagram of the control unit is:
+![Control Unit](https://user-images.githubusercontent.com/72839552/132792101-a564c6b6-fa3b-459c-9931-a860b65e526b.jpg)
+----------------------------------------------
+
+
