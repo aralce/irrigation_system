@@ -99,7 +99,7 @@ Electrovalve and pump can have a sensor. The irrigation zone use these measures 
 
 The Power Unit is responsible to sense the principal power source and determine if it's necessary to switch to the secondary power source.
 
-The Communication Unit is responsible to bring and send data from and to server. Also, must to share with the control unit the healthy of conexion.
+The Communication Unit is responsible to bring and send data from and to server. Also, must to share with the control unit the healthy of connection.
 
 ----------------------------------------------
 
