@@ -99,9 +99,7 @@ The diagram of the whole system is:
 ![Main Subsystems](https://user-images.githubusercontent.com/72839552/133168102-09984a9c-5dea-42c5-9d08-149271a51b08.jpg)
 
 
-The Control Unit is the system core, so its simplified composition is shown here.
-Each irrigation zone has an electrovalve to irrigate and a unique pump which is shared by all irigation zones.
-Electrovalve and pump can have a sensor. The irrigation zone use these measures to determine the healthy of the pipe.
+The Control Unit is the system core. It is responsible of execute the systems routines.
 
 The Power Unit is responsible to sense the principal power source and determine if it's necessary to switch to the secondary power source.
 
