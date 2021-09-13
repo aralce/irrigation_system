@@ -36,9 +36,13 @@ The main responsabilities of the control and monitoring system are:
 - Be capable of comunicatte througth a LoRaWAN net.
 - Manage an auxiliary source subsystem when the 220/110 Vac is not available.
 - Manage presion sensors.
-- Manage electro valves and a pump.
+- Manage electrovalves and a pump.
 - Warning about failures.
-  ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)  
+  ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)
+  
+The system composition is:  
+![Main Subsystems](https://user-images.githubusercontent.com/72839552/133090483-dd62eda0-fdfd-4727-8200-6367c05dd504.jpg)  
+Each subsystem is working in parallel to each other.
 
 ----------------------------------------------
 ## 3. SPECIFIC REQUERIMENTS
@@ -52,20 +56,20 @@ The main responsabilities of the control and monitoring system are:
 ##### 3.2.1 SENSORS-FR1
 ###### 3.2.1.1 *Requeriment:* The system have a maximun of 8 presion sensors.
 ##### 3.2.2 SENSORS-FR2
-###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 4-20mA
+###### 3.2.2.1 *Requeriment:* The posible configuration for each sensor is: NO-SENSOR, SWITCH, 4-20mA.
 ##### 3.2.3 SENSORS-FR3
 ###### 3.2.3.1 *Requeriment:* Each sensor can be configured independently from others.
-##### 3.2.4 ELECTRO-VALVE-FR1
-###### 3.2.4.1 *Requeriment:* The system have a maximun of 8 electro-valves
-##### 3.2.5 ELECTRO-VALVE-FR2
+##### 3.2.4 ELECTROVALVE-FR1
+###### 3.2.4.1 *Requeriment:* The system have a maximun of 8 electrovalves.
+##### 3.2.5 ELECTROVALVE-FR2
 ###### 3.2.5.1 *Requeriment:* The user can indicate how many liters per minute each valve pulls
-##### 3.2.6 ELECTRO-VALVE-FR3
-###### 3.2.6.1 *Requeriment:* Only one electro-valve can be open each time. 
+##### 3.2.6 ELECTROVALVE-FR3
+###### 3.2.6.1 *Requeriment:* Only one electrovalve can be open each time. 
 ###### 3.2.6.2 *Description:* The sequense of transition is: valve_1 is open, valve_2 is opened, valve_1 is closed.
 ##### 3.2.7 PUMP-FR1
-###### 3.2.7.1 *Requeriment:* The pump is activated only if there is an electro-valve open.
+###### 3.2.7.1 *Requeriment:* The pump is activated only if there is an electrovalve open.
 ##### 3.2.8 PUMP-FR2
-###### 3.2.8.1 *Requeriment:* Before close all electro-valves, the pump is desactivated.
+###### 3.2.8.1 *Requeriment:* Before close all electrovalves, the pump is desactivated.
 ##### 3.2.9 POWER_SYSTEM-FR1
 ###### 3.2.9.1 *Requeriment:* If voltage <= 0,7*220Vac then the primary power system is desactivated and secondary power system is activated.
 ##### 3.2.10 POWER_SYSTEM-FR2
@@ -74,7 +78,7 @@ The main responsabilities of the control and monitoring system are:
 ###### 3.2.11.1 *Requeriment:* If secondary power system is active then the system is low consumption.
 ###### 3.2.11.2 *Description:* In low consumption only alarm system and communication system are active. Secondary power system can be active for a week.
 ##### 3.2.12 CONTROL_UNIT-FR1
-###### 3.2.12.1 *Requeriment:* For each electro-valve the system can irrigate the irrigation zone with a weekly calendar.
+###### 3.2.12.1 *Requeriment:* For each electrovalve the system can irrigate the irrigation zone with a monthly calendar.
 ###### 3.2.12.2 *Description:* On the calendar the user can select the day and starting hour. The time of irrigation is expresed as minutes or as liters.
 ##### 3.2.13 CONTROL_UNIT-FR2
 ###### 3.2.12.1 *Requeriment:* The user can manually irrigate an irrigation zone ONLY if there is no connection with server. The manual irrigation has priority over calendar irrigation.
@@ -89,9 +93,9 @@ The main responsabilities of the control and monitoring system are:
 ### 3.3 Use cases
 ----------------------------------------------
 ### 3.4 Classes / Objects
-The class diagram of the whole system is:  
+The diagram of the whole system is:  
 
-![Main](https://user-images.githubusercontent.com/72839552/132791982-6f6034d5-d710-4273-be81-0798c64e9c6c.jpg)
+![Main Subsystems](https://user-images.githubusercontent.com/72839552/133090483-dd62eda0-fdfd-4727-8200-6367c05dd504.jpg)
 
 The Control Unit is the system core, so its simplified composition is shown here.
 Each irrigation zone has an electrovalve to irrigate and a unique pump which is shared by all irigation zones.
@@ -111,7 +115,18 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### - Set system on low power state if is requested by power unit.
 
 ##### The class diagram of the control unit is:
-![Control Unit](https://user-images.githubusercontent.com/72839552/132792101-a564c6b6-fa3b-459c-9931-a860b65e526b.jpg)
+![Control Unit](https://user-images.githubusercontent.com/72839552/133093298-c60630d2-4a3b-4570-b667-7e1229b7cf4f.jpg) 
+
+#### 3.4.2 Control unit factory
+##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
+#### 3.4.3 Timer
+##### It's a timer to schedule time events.
+#### 3.4.4 Irrigation manager
+##### It's responsible to manage irrigation operations. It controls the irrigation zones directly and schedules the irrigation routines.
+#### 3.4.5 Irrigation storage manager
+##### It stores the irrigation routines with a policies such as monthly or weekly. It manages the store and read data way.
+
+
 ----------------------------------------------
 
 
