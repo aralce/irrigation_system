@@ -119,12 +119,23 @@ The Communication Unit is responsible to bring and send data from and to server.
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
-#### 3.4.3 Timer
-##### It's a timer to schedule time events.
+#### 3.4.3 System status holder
+##### It's responsible to store system variables related to system health.
 #### 3.4.4 Irrigation manager
 ##### It's responsible to manage irrigation operations. It controls the irrigation zones directly and schedules the irrigation routines.
 #### 3.4.5 Irrigation storage manager
 ##### It stores the irrigation routines with a policies such as monthly or weekly. It manages the store and read data way.
+#### 3.4.6 Timer
+##### It's a timer to schedule time events.
+
+#### 3.4.7 Irrigation Zone
+##### It takes the control of the pipes related to one irrigation zone.
+![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133100735-80415533-05a4-4e51-8cad-9dbce53af31c.jpg)
+
+
+
+#### 3.4.8 Actuator
+#### 3.4.9 Sensor
 
 
 ----------------------------------------------
