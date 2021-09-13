@@ -41,7 +41,8 @@ The main responsabilities of the control and monitoring system are:
   ![system](https://user-images.githubusercontent.com/72839552/132056941-11d8951f-46ed-4417-aa22-e17dcdcfbfd4.PNG)
   
 The system composition is:  
-![Main Subsystems](https://user-images.githubusercontent.com/72839552/133090483-dd62eda0-fdfd-4727-8200-6367c05dd504.jpg)  
+![Main Subsystems](https://user-images.githubusercontent.com/72839552/133168090-f4cc3a4b-6ab9-40e3-bf07-922584a07708.jpg)
+ 
 Each subsystem is working in parallel to each other.
 
 ----------------------------------------------
@@ -95,7 +96,8 @@ Each subsystem is working in parallel to each other.
 ### 3.4 Classes / Objects
 The diagram of the whole system is:  
 
-![Main Subsystems](https://user-images.githubusercontent.com/72839552/133090483-dd62eda0-fdfd-4727-8200-6367c05dd504.jpg)
+![Main Subsystems](https://user-images.githubusercontent.com/72839552/133168102-09984a9c-5dea-42c5-9d08-149271a51b08.jpg)
+
 
 The Control Unit is the system core, so its simplified composition is shown here.
 Each irrigation zone has an electrovalve to irrigate and a unique pump which is shared by all irigation zones.
@@ -114,8 +116,8 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### - Communicate system status.
 ##### - Set system on low power state if is requested by power unit.
 
-##### The class diagram of the control unit is:
-![Control Unit](https://user-images.githubusercontent.com/72839552/133093298-c60630d2-4a3b-4570-b667-7e1229b7cf4f.jpg) 
+##### The class diagram of the control unit is:  
+![Control Unit](https://user-images.githubusercontent.com/72839552/133167438-957358a8-7ce3-4748-8c17-660fa8f0607c.jpg)
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
@@ -136,6 +138,10 @@ The Communication Unit is responsible to bring and send data from and to server.
 
 #### 3.4.8 Actuator
 #### 3.4.9 Sensor
+
+
+#### 3.4.10 Communication Unit  
+![Communication Unit](https://user-images.githubusercontent.com/72839552/133168752-a6f9f32a-4c6d-410f-a9eb-00acea1e6d9d.jpg)
 
 
 ----------------------------------------------
