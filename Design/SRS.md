@@ -115,7 +115,8 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### - Set system on low power state if is requested by power unit.
 
 ##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/133167438-957358a8-7ce3-4748-8c17-660fa8f0607c.jpg)
+![Control Unit](https://user-images.githubusercontent.com/72839552/133280794-a1baa942-c708-4bd9-8725-f3e5594e4a4b.jpg)
+
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
@@ -125,22 +126,50 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### It's responsible to manage irrigation operations. It controls the irrigation zones directly and schedules the irrigation routines.
 #### 3.4.5 Irrigation storage manager
 ##### It stores the irrigation routines with a policies such as monthly or weekly. It manages the store and read data way.
-#### 3.4.6 Timer
-##### It's a timer to schedule time events.
 
-#### 3.4.7 Irrigation Zone
+#### 3.4.6 Irrigation Zone
 ##### It takes the control of the pipes related to one irrigation zone.
-![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133100735-80415533-05a4-4e51-8cad-9dbce53af31c.jpg)
+![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)
+
+#### 3.4.7 Actuator
+Requeriments:
+- Sets a gpio associated.
+- Activates actuator.
+- Desactivates actuator.
+- Query if is activated.
+##### 3.4.7.1 Attributes:
+  - GPIO act
+##### 3.4.7.2 Member functions:
+  - void activate()
+  - void desactivate()
+  - bool is_activated()
+
+#### 3.4.8 Sensor  
+![Sensor](https://user-images.githubusercontent.com/72839552/133283877-e139ef48-9678-4705-9984-1de0cadbec6b.jpg)  
+Requeriments:
+- Takes measure.
+- Query if measure is ready.
+- Returns measure value.  
+- Returns measure unit.
+ 
+##### 3.4.8.1 Attributes:  N/A  
+##### 3.4.8.2 Member functions:  
+  - void take_measure()
+  - int32_t get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is 0 or 0xFFFFFFFF.
+  - string get_unit(): unit is lower case.
+  - bool is_value_ready()
+
+#### 3.4.9 Communication Unit  
+![Communication Unit](https://user-images.githubusercontent.com/72839552/133290935-5664190c-5a3e-4ce4-b1e7-3812647f24a9.jpg)
 
 
 
-#### 3.4.8 Actuator
-#### 3.4.9 Sensor
 
-
-#### 3.4.10 Communication Unit  
-![Communication Unit](https://user-images.githubusercontent.com/72839552/133168752-a6f9f32a-4c6d-410f-a9eb-00acea1e6d9d.jpg)
-
+#### 3.4.10 Communication Factory  
+#### 3.4.11 Communication Driver
+#### 3.4.12 Unpackager
+#### 3.4.14 Packager
+#### 3.4.15 Parser
 
 ----------------------------------------------
 
