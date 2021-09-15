@@ -146,7 +146,7 @@ Requeriments:
   - void add_sensor()
   - void remove_sensor()
   - void take_measure()
-  - int32_t get_measure()
+  - float get_measure()
   - bool is_measure_ready()
 
 #### 3.4.8 Sensor  
@@ -160,7 +160,7 @@ Requeriments:
 ##### 3.4.8.1 Attributes:  N/A  
 ##### 3.4.8.2 Member functions:  
   - void take_measure()
-  - int32_t get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is 0 or 0xFFFFFFFF.
+  - float get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is 0 or 0xFFFFFFFF.
   - string get_unit(): unit is lower case.
   - bool is_value_ready()
 
