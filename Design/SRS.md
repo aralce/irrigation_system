@@ -154,29 +154,23 @@ Requeriments:
   - bool has_sensor()
   - void add_sensor()
   - void remove_sensor()
-  - void take_measure()
-  - float get_measure()
-  - bool is_measure_ready()
+  - float read_sensor()
+
 
 #### 3.4.8 Sensor  
 ![Sensor](https://user-images.githubusercontent.com/72839552/133283877-e139ef48-9678-4705-9984-1de0cadbec6b.jpg)  
 Requeriments:
-- Takes measure.
-- Query if measure is ready.
 - Returns measure value.  
 - Returns measure unit.
- 
+  
+  
 ##### 3.4.8.1 Attributes:  N/A  
 ##### 3.4.8.2 Member functions:  
-  - void take_measure()
-  - float get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is numeric_limits::max(float).
+  - float read(): In case of switch, return value is numeric_limits::max(float).
   - string get_unit(): unit is lower case.
-  - bool is_value_ready()
 
 #### 3.4.9 Communication Unit  
 ![Communication Unit](https://user-images.githubusercontent.com/72839552/133290935-5664190c-5a3e-4ce4-b1e7-3812647f24a9.jpg)
-
-
 
 
 #### 3.4.10 Communication Factory  
