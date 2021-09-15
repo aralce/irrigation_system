@@ -115,8 +115,7 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### - Set system on low power state if is requested by power unit.
 
 ##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/133280794-a1baa942-c708-4bd9-8725-f3e5594e4a4b.jpg)
-
+![Control Unit](https://user-images.githubusercontent.com/72839552/133467457-ba054906-9ac6-47bd-be8e-f169a13decbe.jpg)
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
@@ -133,16 +132,22 @@ The Communication Unit is responsible to bring and send data from and to server.
 
 #### 3.4.7 Actuator
 Requeriments:
-- Sets a gpio associated.
-- Activates actuator.
-- Desactivates actuator.
-- Query if is activated.
-##### 3.4.7.1 Attributes:
-  - GPIO act
-##### 3.4.7.2 Member functions:
+- Use a gpio.
+- Control actuator state.
+- Query actuator state.
+- Manage sensor.
+##### 3.4.7.1 Attributes: N/A
+
+##### 3.4.7.2 Member functions:  
   - void activate()
   - void desactivate()
-  - bool is_activated()
+  - bool is_activated()  
+  - bool has_sensor()
+  - void add_sensor()
+  - void remove_sensor()
+  - void take_measure()
+  - int32_t get_measure()
+  - bool is_measure_ready()
 
 #### 3.4.8 Sensor  
 ![Sensor](https://user-images.githubusercontent.com/72839552/133283877-e139ef48-9678-4705-9984-1de0cadbec6b.jpg)  
