@@ -63,7 +63,7 @@ Each subsystem is working in parallel to each other.
 ##### 3.2.4 ELECTROVALVE-FR1
 ###### 3.2.4.1 *Requeriment:* The system have a maximun of 8 electrovalves.
 ##### 3.2.5 ELECTROVALVE-FR2
-###### 3.2.5.1 *Requeriment:* The user can indicate how many liters per minute each valve pulls
+###### 3.2.5.1 *Requeriment:* 
 ##### 3.2.6 ELECTROVALVE-FR3
 ###### 3.2.6.1 *Requeriment:* Only one electrovalve can be open each time. 
 ###### 3.2.6.2 *Description:* The sequense of transition is: valve_1 is open, valve_2 is opened, valve_1 is closed.
@@ -80,7 +80,7 @@ Each subsystem is working in parallel to each other.
 ###### 3.2.11.2 *Description:* In low consumption only alarm system and communication system are active. Secondary power system can be active for a week.
 ##### 3.2.12 CONTROL_UNIT-FR1
 ###### 3.2.12.1 *Requeriment:* For each electrovalve the system can irrigate the irrigation zone with a monthly calendar.
-###### 3.2.12.2 *Description:* On the calendar the user can select the day and starting hour. The time of irrigation is expresed as minutes or as liters.
+###### 3.2.12.2 *Description:* On the calendar the user can select the day and starting hour. The time of irrigation is expresed as minutes.
 ##### 3.2.13 CONTROL_UNIT-FR2
 ###### 3.2.12.1 *Requeriment:* The user can manually irrigate an irrigation zone ONLY if there is no connection with server. The manual irrigation has priority over calendar irrigation.
 ##### 3.2.14 CONTROL_UNIT-FR3
