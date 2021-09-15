@@ -127,8 +127,17 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### It stores the irrigation routines with a policies such as monthly or weekly. It manages the store and read data way.
 
 #### 3.4.6 Irrigation Zone
-##### It takes the control of the pipes related to one irrigation zone.
 ![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)
+Requeriments
+- Irrigate Zone
+- Indicates pipes healthy
+
+##### 3.4.6.1 Attributes: N/A  
+##### 3.4.6.2 Member functions:  
+- void irrigate( bool must_irrigate )
+- bool is_irrigating()
+- bool is_sensing_health()
+- bool is_healthy()
 
 #### 3.4.7 Actuator
 Requeriments:
@@ -160,7 +169,7 @@ Requeriments:
 ##### 3.4.8.1 Attributes:  N/A  
 ##### 3.4.8.2 Member functions:  
   - void take_measure()
-  - float get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is 0 or 0xFFFFFFFF.
+  - float get_value(): Is responsibility of user to call is_value_ready(). In case of switch, return value is numeric_limits::max(float).
   - string get_unit(): unit is lower case.
   - bool is_value_ready()
 
