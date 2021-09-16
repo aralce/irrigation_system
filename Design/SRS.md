@@ -128,8 +128,13 @@ The Communication Unit is responsible to bring and send data from and to server.
 Requeriments
 - Track a periodic programmed event. The periodicity policy is selected on instantiation.
 - Allow to add programmed events and remove them.
-- Indicates if a programmed event is active.
-Member functions
+- Indicates if a programmed event is active.  
+Member functions  
+- bool add_event( time_t start_time, uint32_t minutes_duration ): Returns success or failure.
+- bool clean_event( time_t date_inside_event ). Returns succes or failure.
+- void clean_all()
+- void is_event_active()
+
 
 #### 3.4.6 Storage Manager
 
