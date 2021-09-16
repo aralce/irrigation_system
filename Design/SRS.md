@@ -115,7 +115,7 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### - Set system on low power state if is requested by power unit.
 
 ##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/133467457-ba054906-9ac6-47bd-be8e-f169a13decbe.jpg)
+![Control Unit](https://user-images.githubusercontent.com/72839552/133526140-55cd0bc3-ff60-4079-8b44-c568d917a15a.jpg)
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
@@ -123,11 +123,20 @@ The Communication Unit is responsible to bring and send data from and to server.
 ##### It's responsible to store system variables related to system health.
 #### 3.4.4 Irrigation manager
 ##### It's responsible to manage irrigation operations. It controls the irrigation zones directly and schedules the irrigation routines.
-#### 3.4.5 Irrigation storage manager
-##### It stores the irrigation routines with a policies such as monthly or weekly. It manages the store and read data way.
+
+#### 3.4.5 Calendar routine
+Requeriments
+- Track a periodic programmed event. The periodicity policy is selected on instantiation.
+- Allow to add programmed events and remove them.
+- Indicates if a programmed event is active.
+Member functions
+
+#### 3.4.6 Storage Manager
+
+#### 3.4.7 Clock
 
 #### 3.4.6 Irrigation Zone
-![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)
+![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)  
 Requeriments
 - Irrigate Zone
 - Indicates pipes healthy
