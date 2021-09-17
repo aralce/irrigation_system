@@ -108,33 +108,42 @@ The Communication Unit is responsible to bring and send data from and to server.
 ----------------------------------------------
 
 #### 3.4.1 Control Unit
-##### The responsibilities of the control unit class are:
+Requeriments
+- Facade to access system status holder, irrigation manager and control unit factory.
+
+##### The class diagram of the control unit is:  
+![Control Unit](https://user-images.githubusercontent.com/72839552/133838288-4bffdcb6-3e85-4439-9567-0670cb3daac3.jpg)
+
+#### 3.4.2 Scheduler
+Requeriments
 - Manage irrigation routines.
 - Manage manual irrigation.
 - Communicate system status.
 - Set system on low power state if is requested by power unit.
 
-##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/133838288-4bffdcb6-3e85-4439-9567-0670cb3daac3.jpg)
+#### 3.4.3 Control unit factory
+Requeriments
+- Instantiate control unit components.  
+- Allow change sensor on run-time.  
 
+#### 3.4.4 System status holder  
+Requeriments  
+- Keep track on system status: zones healthy, power source, communication status.  
 
+##### 3.4.4.1 Attributes: N/A
+##### 3.4.4.2 Member functions:
 
-#### 3.4.2 Control unit factory
-##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
-#### 3.4.3 System status holder
-##### It's responsible to store system variables related to system health.  
-
-#### 3.4.4 Irrigation manager
+#### 3.4.5 Irrigation manager
 Requeriments  
 - Allow manual control of irrigation zones.  
 - Checks state of irrigation zones.  
 - Execute irrigation routines.  
 - Manage routines.  
 
-##### 3.4.4.1 Attributes: 
+##### 3.4.5.1 Attributes: 
 - routine::iterator: foward_iterator returning pairs<time_t start_time, uint32_t duration_minutes>
 
-##### 3.4.4.2 Member functions:  
+##### 3.4.5.2 Member functions:  
 - void irrigate( uint8_t zone_from_1, bool must_irrigate )
 - bool is_irrigating( uint8_t zone_from_1 )
 - void process_routine()
@@ -142,57 +151,57 @@ Requeriments
 - bool clean_routine( uint8_t zone_from_1, time_t time_in_routine ): Returns success or failure.
 - routine::iterator get_routines( uint8_t zone_from_1 )  
 
-#### 3.4.5 Calendar routine
+#### 3.4.6 Calendar routine
 Requeriments
 - Track a periodic programmed event. The periodicity policy is selected on instantiation.
 - Allow to add programmed events and remove them.
 - Indicates if a programmed event is active.  
 
-##### 3.4.5.1 Attributes: N/A  
-##### 3.4.5.2 Member functions: 
+##### 3.4.6.1 Attributes: N/A  
+##### 3.4.6.2 Member functions: 
 - bool add_event( time_t start_time, uint32_t minutes_duration ): Returns success or failure.
 - bool clean_event( time_t date_inside_event ). Returns succes or failure.
 - void clean_all()
 - void is_event_active()
 
 
-#### 3.4.6 Storage Manager  
+#### 3.4.7 Storage Manager  
 - Manage storage in non-volatile memmory.  
 ##### 3.4.7.1 Attributes: N/A  
 ##### 3.4.7.2 Member functions:  
 
-#### 3.4.7 Clock
+#### 3.4.8 Clock
 Requeriments
 - Give time
 - Set time  
 
-##### 3.4.7.1 Attributes: N/A  
-##### 3.4.7.2 Member functions:  
+##### 3.4.8.1 Attributes: N/A  
+##### 3.4.8.2 Member functions:  
 - time_t get_time()
 - void set_time( time_t actual_time )
 
-#### 3.4.8 Irrigation Zone
+#### 3.4.9 Irrigation Zone
 ![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)  
 Requeriments
 - Irrigate Zone
 - Indicates pipes healthy
 
-##### 3.4.8.1 Attributes: N/A  
-##### 3.4.8.2 Member functions:  
+##### 3.4.9.1 Attributes: N/A  
+##### 3.4.9.2 Member functions:  
 - void irrigate( bool must_irrigate )
 - bool is_irrigating()
 - bool is_sensing_health()
 - bool is_healthy()
 
-#### 3.4.9 Actuator
+#### 3.4.10 Actuator
 Requeriments:
 - Use a gpio.
 - Control actuator state.
 - Query actuator state.
 - Manage sensor.
-##### 3.4.9.1 Attributes: N/A
+##### 3.4.10.1 Attributes: N/A
 
-##### 3.4.9.2 Member functions:  
+##### 3.4.10.2 Member functions:  
   - void activate()
   - void desactivate()
   - bool is_activated()  
@@ -202,26 +211,26 @@ Requeriments:
   - float read_sensor()
 
 
-#### 3.4.10 Sensor  
+#### 3.4.11 Sensor  
 ![Sensor](https://user-images.githubusercontent.com/72839552/133283877-e139ef48-9678-4705-9984-1de0cadbec6b.jpg)  
 Requeriments:
 - Returns measure value.  
 - Returns measure unit.
     
-##### 3.4.10.1 Attributes:  N/A  
-##### 3.4.10.2 Member functions:  
+##### 3.4.11.1 Attributes:  N/A  
+##### 3.4.11.2 Member functions:  
   - float read(): In case of switch, return value is numeric_limits::max(float).
   - string get_unit(): unit is lower case.
 
-#### 3.4.11 Communication Unit  
+#### 3.4.12 Communication Unit  
 ![Communication Unit](https://user-images.githubusercontent.com/72839552/133290935-5664190c-5a3e-4ce4-b1e7-3812647f24a9.jpg)
 
 
-#### 3.4.12 Communication Factory  
-#### 3.4.13 Communication Driver
-#### 3.4.14 Unpackager
-#### 3.4.15 Packager
-#### 3.4.16 Parser
+#### 3.4.13 Communication Factory  
+#### 3.4.14 Communication Driver
+#### 3.4.15 Unpackager
+#### 3.4.16 Packager
+#### 3.4.17 Parser
 
 ----------------------------------------------
 
