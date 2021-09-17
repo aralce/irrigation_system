@@ -115,15 +115,32 @@ The Communication Unit is responsible to bring and send data from and to server.
 - Set system on low power state if is requested by power unit.
 
 ##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/133693869-4224fdb5-c578-4d24-899a-30588127c763.jpg)
+![Control Unit](https://user-images.githubusercontent.com/72839552/133838288-4bffdcb6-3e85-4439-9567-0670cb3daac3.jpg)
+
 
 
 #### 3.4.2 Control unit factory
 ##### It's responsible to instantiate the components of control unit. It allows the system to change sensors types on run-time.
 #### 3.4.3 System status holder
-##### It's responsible to store system variables related to system health.
+##### It's responsible to store system variables related to system health.  
+
 #### 3.4.4 Irrigation manager
-##### It's responsible to manage irrigation operations. It controls the irrigation zones directly and schedules the irrigation routines.
+Requeriments  
+- Allow manual control of irrigation zones.  
+- Checks state of irrigation zones.  
+- Execute irrigation routines.  
+- Manage routines.  
+
+##### 3.4.4.1 Attributes: 
+- routine::iterator: foward_iterator returning pairs<time_t start_time, uint32_t duration_minutes>
+
+##### 3.4.4.2 Member functions:  
+- void irrigate( uint8_t zone_from_1, bool must_irrigate )
+- bool is_irrigating( uint8_t zone_from_1 )
+- void process_routine()
+- bool add_routine( uint8_t zone_from_1, time_t start_time, uint32_t duration_minutes ): Returns success or failure.
+- bool clean_routine( uint8_t zone_from_1, time_t time_in_routine ): Returns success or failure.
+- routine::iterator get_routines( uint8_t zone_from_1 )  
 
 #### 3.4.5 Calendar routine
 Requeriments
