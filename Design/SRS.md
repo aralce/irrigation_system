@@ -116,10 +116,13 @@ Requeriments
 
 #### 3.4.2 Scheduler
 Requeriments
+- Schedule control unit operations.
 - Manage irrigation routines.
 - Manage manual irrigation.
 - Communicate system status.
 - Set system on low power state if is requested by power unit.
+##### 3.4.2.1 Attributes: N/A
+##### 3.4.2.2 Member functions: N/A 
 
 #### 3.4.3 Control unit factory
 Requeriments
@@ -131,7 +134,7 @@ Requeriments
 - Keep track on system status: zones healthy, power source, communication status.  
 
 ##### 3.4.4.1 Attributes: N/A
-##### 3.4.4.2 Member functions:
+##### 3.4.4.2 Member functions: N/A
 
 #### 3.4.5 Irrigation manager
 Requeriments  
