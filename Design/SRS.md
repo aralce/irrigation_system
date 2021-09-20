@@ -241,7 +241,9 @@ Requeriments
 Requeriments  
 - Prepares arriving data to be used by system.
 #### 3.4.16 Packager  
-- Prepares sent data to be used by server.
+Requeriments  
+- Prepares sent data to be used by server.  
+
 #### 3.4.17 Parser  
 Requeriments  
 - Translate data from a format to another.
