@@ -50,7 +50,11 @@ Each subsystem is working in parallel to each other.
 #### 3.1 External interfaces
 #### 3.1.1 User interfaces
 #### 3.1.2 Hardware interfaces
-#### 3.1.3 Software interfaces
+#### 3.1.3 Software interfaces  
+- FreeRTOS: RTOS.  
+- STM32CubeIde: Main IDE.  
+- GTest: Unit test framework.  
+
 #### 3.1.4 Communication protocols and interfaces
 ----------------------------------------------
 ### 3.2 Functional requeriments
