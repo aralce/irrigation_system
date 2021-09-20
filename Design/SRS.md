@@ -226,14 +226,25 @@ Requeriments:
   - string get_unit(): unit is lower case.
 
 #### 3.4.12 Communication Unit  
-![Communication Unit](https://user-images.githubusercontent.com/72839552/133290935-5664190c-5a3e-4ce4-b1e7-3812647f24a9.jpg)
-
+![Communication Unit](https://user-images.githubusercontent.com/72839552/133290935-5664190c-5a3e-4ce4-b1e7-3812647f24a9.jpg)  
 
 #### 3.4.13 Communication Factory  
-#### 3.4.14 Communication Driver
-#### 3.4.15 Unpackager
-#### 3.4.16 Packager
-#### 3.4.17 Parser
+Requeriments
+- Construct communication components.  
+
+#### 3.4.14 Communication Driver  
+Requeriments  
+- Manage specific communication protocol.  
+- Send data.  
+- Receive data.  
+#### 3.4.15 Unpackager  
+Requeriments  
+- Prepares arriving data to be used by system.
+#### 3.4.16 Packager  
+- Prepares sent data to be used by server.
+#### 3.4.17 Parser  
+Requeriments  
+- Translate data from a format to another.
 
 ----------------------------------------------
 
