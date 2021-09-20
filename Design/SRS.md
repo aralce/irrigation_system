@@ -53,7 +53,7 @@ Each subsystem is working in parallel to each other.
 #### 3.1.3 Software interfaces  
 - FreeRTOS: RTOS.  
 - STM32CubeIde: Main IDE.  
-- GTest: Unit test framework.  
+- Cute C++: Unit test framework.  
 
 #### 3.1.4 Communication protocols and interfaces
 ----------------------------------------------
