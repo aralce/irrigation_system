@@ -53,7 +53,7 @@ Each subsystem is working in parallel to each other.
 #### 3.1.3 Software interfaces  
 - FreeRTOS: RTOS.  
 - STM32CubeIde: Main IDE.  
-- Cute C++: Unit test framework.  
+- Google Test: Unit test framework for C++.  
 
 #### 3.1.4 Communication protocols and interfaces
 ----------------------------------------------
@@ -219,7 +219,8 @@ Requeriments:
 
 
 #### 3.4.11 Sensor  
-![Sensor](https://user-images.githubusercontent.com/72839552/133283877-e139ef48-9678-4705-9984-1de0cadbec6b.jpg)  
+![Sensor](https://user-images.githubusercontent.com/72839552/134399301-c82f910a-2911-4dca-b8e4-774b32148f5d.jpg)
+
 Requeriments:
 - Returns measure value.  
 - Returns measure unit.
