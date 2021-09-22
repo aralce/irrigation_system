@@ -188,7 +188,9 @@ Requeriments
 - void set_time( time_t actual_time )
 
 #### 3.4.9 Irrigation Zone
-![Irrigation Zone](https://user-images.githubusercontent.com/72839552/133281010-29b620f3-ad9d-4429-be41-6dfd268c3135.jpg)  
+![Irrigation Zone](https://user-images.githubusercontent.com/72839552/134401679-736b8399-e52d-4c6a-8b73-ef052a63a032.jpg)
+
+
 Requeriments
 - Irrigate Zone
 - Indicates pipes healthy
@@ -218,8 +220,9 @@ Requeriments:
   - float read_sensor()
 
 
-#### 3.4.11 Sensor  
-![Sensor](https://user-images.githubusercontent.com/72839552/134399301-c82f910a-2911-4dca-b8e4-774b32148f5d.jpg)
+#### 3.4.11 Sensor_SI  
+![Sensor](https://user-images.githubusercontent.com/72839552/134406251-e9eb02a1-eb6b-4c8b-90b6-2c73a001b29a.jpg)
+
 
 Requeriments:
 - Returns measure value.  
