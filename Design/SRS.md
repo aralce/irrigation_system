@@ -223,10 +223,12 @@ Requeriments:
 Requeriments:
 - Returns measure value.  
 - Returns measure unit.
+- Returns sensor instances.
     
 ##### 3.4.11.1 Attributes:  N/A  
 ##### 3.4.11.2 Member functions:  
   - uint32_t read(): In case of switch, return value is numeric_limits::max(uint32_t).
+  - int get_instances_num()
   - string get_unit(): unit is lower case.
 
 #### 3.4.12 Communication Unit  
