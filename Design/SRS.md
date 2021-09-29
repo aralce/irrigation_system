@@ -210,13 +210,10 @@ Requeriments:
 ##### 3.4.10.1 Attributes: N/A
 
 ##### 3.4.10.2 Member functions:  
-  - void activate()
-  - void desactivate()
-  - bool is_activated()  
+  - void set( bool set_ON )
+  - bool is_ON()  
   - bool has_sensor()
-  - void add_sensor()
-  - void remove_sensor()
-  - float read_sensor()
+  - uint32_t read_sensor()
 
 
 #### 3.4.11 Sensor_SI  
@@ -229,7 +226,7 @@ Requeriments:
     
 ##### 3.4.11.1 Attributes:  N/A  
 ##### 3.4.11.2 Member functions:  
-  - float read(): In case of switch, return value is numeric_limits::max(float).
+  - uint32_t read(): In case of switch, return value is numeric_limits::max(uint32_t).
   - string get_unit(): unit is lower case.
 
 #### 3.4.12 Communication Unit  
