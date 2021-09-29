@@ -188,8 +188,7 @@ Requeriments
 - void set_time( time_t actual_time )
 
 #### 3.4.9 Irrigation Zone
-![Irrigation Zone](https://user-images.githubusercontent.com/72839552/134401679-736b8399-e52d-4c6a-8b73-ef052a63a032.jpg)
-
+![Irrigation Zone](https://user-images.githubusercontent.com/72839552/135307235-cac14ff7-a2c1-4bf9-91b7-f767d2379526.jpg)
 
 Requeriments
 - Irrigate Zone
