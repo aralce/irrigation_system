@@ -19,6 +19,10 @@
  * 12- Start irrigating a zone twice, only increase the count of irrigating zones by 1.
  * 13- If irrigation zone is turn off, pump is ON and there isn't any other irrigation zone active, so pump is off.
  * 
+ * 14- When the pump sensor and electrovalve sensor are both equal to uint32(MAX value), then irrigation zone is healthy.
+ * 15- When the irrigation zone is not sensing health, then irrigation zone is considered healthy
+ * 16- When the pump sensor and electrovalve sensor have a difference lesser or equal to HEALTH_OFFSET, then irrigation zone is healthy.
+ * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
  * Email: ariel.cerfoglia@gmail.com
