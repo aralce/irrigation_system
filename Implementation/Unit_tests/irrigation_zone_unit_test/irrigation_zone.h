@@ -1,13 +1,17 @@
 #include "actuator_mock.h"
-
+/**Irrigation Zone (IS NOT THREAD SAFE)
+ * 
+ * The irrigation zone is responsible to control the field irrigation.
+ * A irrigation zone is associated with one electrovalve and a shared pump.
+ * 
+*/
 class Irrigation_zone
 {
 public:
     explicit Irrigation_zone(Actuator &electrovalve, Actuator &pump) : _electrovalve(electrovalve), _pump(pump) {}
     Irrigation_zone() = delete;
-
     bool is_sensing_health();
-    bool is_irrigating();
+    bool is_irrigating(){ return _electrovalve.is_ON(); }
     void irrigate(bool must_irrigate);
 private:
     Actuator &_electrovalve;

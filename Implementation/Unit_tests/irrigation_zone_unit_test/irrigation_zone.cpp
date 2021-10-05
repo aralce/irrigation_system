@@ -1,21 +1,18 @@
 #include "irrigation_zone.h"
+int Irrigation_zone::_zones_irrigating = 0;
+
+/*Alias*/
 static constexpr bool ON  = true;
 static constexpr bool OFF = false;
 static constexpr int ONLY_THIS = 1;
-int Irrigation_zone::_zones_irrigating = 0;
 
-
+/*Function Definition*/
 bool Irrigation_zone::is_sensing_health()
 {
     if( _electrovalve.has_sensor() && _pump.has_sensor() )
         return true;
     else
         return false;
-}
-
-bool Irrigation_zone::is_irrigating()
-{
-    return _electrovalve.is_ON();
 }
 
 void Irrigation_zone::irrigate(bool must_irrigate)
