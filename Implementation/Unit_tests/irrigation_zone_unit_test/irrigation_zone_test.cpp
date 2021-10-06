@@ -21,7 +21,8 @@
  * 
  * 14- When the pump sensor and electrovalve sensor are both equal to uint32(MAX value), then irrigation zone is healthy.
  * 15- When the irrigation zone is not sensing health, then irrigation zone is considered healthy
- * 16- When the pump sensor and electrovalve sensor have a difference lesser or equal to HEALTH_OFFSET, then irrigation zone is healthy.
+ * 16- When the pump sensor reading less electrovalve sensor reading is lesser or equal than HEALTH_OFFSET, then irrigation zone is healthy.
+ * 17- When the pump sensor reading less electrovalve sensor reading is greater than HEALTH_OFFSET, then irrigation zone is NOT healthy.
  * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
@@ -33,18 +34,13 @@
 class IrrigationZoneTest : public ::testing::Test
 {
 protected:
-    void SetUp() override
-    {
-      
-    }  
+    //void SetUp() override {}  
     //void TearDown() override {}
 MockActuator electrovalve;
 MockActuator pump;
 };
 
-
 /*STARTING TESTS*/
-
 //1- Irrigation zone must be constructed with a reference to an electrovalve and a pump.
 TEST_F(IrrigationZoneTest, constructor) {
   Irrigation_zone irr(electrovalve, pump);  
@@ -205,4 +201,61 @@ TEST_F(IrrigationZoneTest, irrigation_zones_set_OFF_pump_OFF)
     .WillOnce(Return(true));
   EXPECT_CALL( pump, set(false));
   irr.irrigate(false);
+}
+
+//14- When the pump sensor and electrovalve sensor are both equal to uint32(MAX value), then irrigation zone is healthy.
+TEST_F(IrrigationZoneTest, irrigation_zones_healthy_with_switch_sensor)
+{
+  Irrigation_zone irr(electrovalve, pump);
+  using ::testing::Return;
+  EXPECT_CALL(pump, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(electrovalve, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(pump, read_sensor())
+    .WillOnce(Return(std::numeric_limits<uint32_t>::max()));
+  EXPECT_CALL(electrovalve, read_sensor())
+    .WillOnce(Return(std::numeric_limits<uint32_t>::max()));  
+  EXPECT_EQ(true, irr.is_healthy());
+}
+
+//15- When the irrigation zone is not sensing health, then irrigation zone is considered healthy
+TEST_F(IrrigationZoneTest, irrigation_zones_healthy_not_sensing)
+{
+  Irrigation_zone irr(electrovalve, pump); 
+  EXPECT_EQ(false, irr.is_sensing_health());
+  EXPECT_EQ(true, irr.is_healthy());
+}
+
+//16- When the pump sensor reading less electrovalve sensor reading is lesser or equal than HEALTH_OFFSET, then irrigation zone is healthy.
+TEST_F(IrrigationZoneTest, irrigation_zones_healthy_with_analog_sensor)
+{
+  Irrigation_zone irr(electrovalve, pump);
+  using ::testing::Return;
+  EXPECT_CALL(pump, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(electrovalve, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(pump, read_sensor)
+    .WillOnce(Return(HEALTHY_OFFSET));
+  EXPECT_CALL(electrovalve, read_sensor)
+    .WillOnce(Return(0));
+  EXPECT_EQ( true, irr.is_healthy());
+}
+
+//17- When the pump sensor reading less electrovalve sensor reading is greater than HEALTH_OFFSET, then irrigation zone is NOT healthy.
+TEST_F(IrrigationZoneTest, irrigation_zones_not_healthy_with_analog_sensor)
+{
+  Irrigation_zone irr(electrovalve, pump);
+  constexpr uint32_t OFFSET_ADDED = 2000;
+  using ::testing::Return;
+  EXPECT_CALL(pump, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(electrovalve, has_sensor)
+    .WillOnce(Return(true));
+  EXPECT_CALL(pump, read_sensor)
+    .WillOnce(Return(HEALTHY_OFFSET + OFFSET_ADDED));
+  EXPECT_CALL(electrovalve, read_sensor)
+    .WillOnce(Return(OFFSET_ADDED - 1));
+  EXPECT_EQ( false, irr.is_healthy());
 }
