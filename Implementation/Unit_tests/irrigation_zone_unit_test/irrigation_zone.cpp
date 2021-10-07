@@ -1,10 +1,11 @@
 #include "irrigation_zone.h"
+#include <limits>
 int Irrigation_zone::_zones_irrigating = 0;
 
 /*Alias*/
 static constexpr bool ON  = true;
 static constexpr bool OFF = false;
-static constexpr int ONLY_THIS = 1;
+static constexpr int NONE = 0;
 
 /*Function Definition*/
 void Irrigation_zone::irrigate(bool must_irrigate)
@@ -22,7 +23,7 @@ void Irrigation_zone::irrigate(bool must_irrigate)
     
     if (_pump->is_ON() == false) 
         _pump->set(ON);
-    else if( must_irrigate == false && _zones_irrigating == ONLY_THIS)
+    else if( must_irrigate == false && _zones_irrigating == NONE)
         _pump->set(OFF);
 }
 

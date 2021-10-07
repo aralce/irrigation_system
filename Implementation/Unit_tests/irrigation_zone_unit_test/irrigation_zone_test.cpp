@@ -186,13 +186,17 @@ TEST_F(IrrigationZoneTest, irrigation_zones_set_ON_twice)
 //13- If irrigation zone is turn off, pump is ON and there isn't any other irrigation zone active, so pump is off.
 TEST_F(IrrigationZoneTest, irrigation_zones_set_OFF_pump_OFF)
 {
+  EXPECT_EQ( 0, Debug::get_nzones_irrigating());
   irr->irrigate(true);
   EXPECT_EQ( 1, Debug::get_nzones_irrigating());
   using ::testing::Return;
+  EXPECT_CALL( electrovalve, is_ON)
+    .WillRepeatedly(Return(true));
   EXPECT_CALL( pump, is_ON)
     .WillOnce(Return(true));
   EXPECT_CALL( pump, set(false));
   irr->irrigate(false);
+  EXPECT_EQ( 0, Debug::get_nzones_irrigating());
 }
 
 //14- When the pump sensor and electrovalve sensor are both equal to uint32(MAX value), then irrigation zone is healthy.
