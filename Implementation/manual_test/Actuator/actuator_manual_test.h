@@ -1,5 +1,5 @@
-/**Sensor_manual_test.h
- * This file contain the manual tests for the sensor class.
+/**Actuator_manual_test.h
+ * This file contain the manual tests for the actuator class.
  *
  * FAQ:
  * How do I configure project to run test?

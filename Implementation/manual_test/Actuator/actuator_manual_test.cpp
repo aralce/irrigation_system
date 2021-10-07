@@ -1,13 +1,14 @@
-#include "actuator_manual_test.h"
+#include "Actuator_manual_test.h"
+
 #include "cmsis_os.h"
-#include "../../classes/actuator.h"
 #include "cmsis_os.h"
 #include "stm32f4xx_hal.h"
+#include "../../classes/Actuator.h"
 
 #define COUNT_OF(x) sizeof(x)/sizeof(x[0])
 
-static sensor *sensor;
-static actuator *actuator;
+static Sensor *sensor;
+static Actuator *actuator;
 extern UART_HandleTypeDef huart1;
 
 
@@ -24,8 +25,8 @@ void actuator_manual_test_init_with_sensor()
 	//Initializes GPIO for actuator in LED4(PG14) has been initialized by MX default configuration.
 
 	/*Initialization of sensor and actuator*/
-	sensor = new sensor_switch(GPIOG, GPIO_PIN_2, true);
-	actuator = new actuator_ON_OFF(GPIOG, GPIO_PIN_14, sensor);
+	sensor = new Sensor_switch(GPIOG, GPIO_PIN_2, true);
+	actuator = new Actuator_ON_OFF(GPIOG, GPIO_PIN_14, sensor);
 }
 
 void actuator_manual_test_init_without_sensor()
@@ -41,7 +42,7 @@ void actuator_manual_test_init_without_sensor()
 	//Initializes GPIO for actuator in LED4(PG14) has been initialized by MX default configuration.
 
 	/*Initialization of actuator*/
-	actuator = new actuator_ON_OFF(GPIOG, GPIO_PIN_14);
+	actuator = new Actuator_ON_OFF(GPIOG, GPIO_PIN_14);
 }
 
 void actuator_manual_test_run()
