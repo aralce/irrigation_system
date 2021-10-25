@@ -166,9 +166,8 @@ Requeriments
 
 ##### 3.4.6.1 Attributes: N/A  
 ##### 3.4.6.2 Member functions: 
-- bool add_event( time_t start_time, uint32_t minutes_duration ): Returns success or failure.
-- bool clean_event( time_t date_inside_event ). Returns succes or failure.
-- void clean_all()
+- bool add_event( tm start_time, uint32_t minutes_duration ): Returns success or failure.
+- bool remove_event( tm date_inside_event ): Returns succes or failure.
 - void is_event_active()
 
 
