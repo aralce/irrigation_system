@@ -6,12 +6,19 @@
  * ***********************
  *  The main requirements are:
  * 1- Construct a calendar routine without data.
- * 2- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
- * 3- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
- * 4- Erase a routine with an instant included in the event to erase.
- * 5- If a user tries to add a routine twice, the routine is added only once.
- * 6- If a user adds a routine wi
- *
+ * //Adding routines:
+ * 2.1- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
+ * 2.2- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
+ * 2.3- If a user tries to add a routine twice, the routine is added only once.
+ * 2.4- If a user adds a routine that share time with another. The routine is changed to the merge of both.
+ * 2.5- If a user adds a routine that share time with another and acts as a bridge with others routines. All routines as merge as one.
+ * 2.6- if MAX_ROUTINES has been reached, add a routine has no effect.
+ * //Erasing routines:
+ * 3.1- Erase a routine with an instant included in the event to erase.
+ * 3.2- Erase a routine onto a empty list has no effect.
+ * 3.3- Erase the same routing twice, only erase the routine 1 time. The second attempt has no effect.
+ * 
+ * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
  * Email: ariel.cerfoglia@gmail.com
@@ -32,13 +39,14 @@ protected:
 
 /*STARTING TESTS*/
 //1- Construct a calendar routine without data.
-TEST_F(CalendarRoutineTest, calendarRoutine_store_anual_routines) {
+TEST_F(CalendarRoutineTest, store_anual_routines) {
    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
 }
 
-
-//2- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
-TEST_F(CalendarRoutineTest, calendarRoutine_add_routine_checkEvent) {
+/////////////
+//Adding routine
+//2.1- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
+TEST_F(CalendarRoutineTest, add_routine_checkEvent) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
     bool success = calendar->add_event( start_time, duration_in_minutes);
     ASSERT_EQ(true, success);
@@ -49,8 +57,8 @@ TEST_F(CalendarRoutineTest, calendarRoutine_add_routine_checkEvent) {
 }
 
 
-//3- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
-TEST_F(CalendarRoutineTest, calendarRoutine_add_routine_check_no_Event) {
+//2.2- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
+TEST_F(CalendarRoutineTest, add_routine_check_no_Event) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
    
     bool success = calendar->add_event( start_time, duration_in_minutes);
@@ -62,8 +70,10 @@ TEST_F(CalendarRoutineTest, calendarRoutine_add_routine_check_no_Event) {
     ASSERT_EQ(false, is_active);
 }
 
-//4- Erase a routine with an instant included in the event to erase.
-TEST_F(CalendarRoutineTest, calendarRoutine_erase_routine_check)
+////////////
+//Erase routine
+//3.1- Erase a routine with an instant included in the event to erase.
+TEST_F(CalendarRoutineTest, erase_routine_check)
 {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     calendar->add_event(start_time, duration_in_minutes);
