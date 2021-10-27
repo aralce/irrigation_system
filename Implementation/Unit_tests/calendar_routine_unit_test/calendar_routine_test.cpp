@@ -27,8 +27,7 @@
 
 class CalendarRoutineTest: public ::testing::Test {
 protected:
-    void SetUp() override
-    {
+    void SetUp() override {
         start_time.tm_hour = 10;
         start_time.tm_year = 2021 - 1900;
         start_time.tm_mon = 9;              
@@ -43,6 +42,7 @@ TEST_F(CalendarRoutineTest, store_anual_routines) {
    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
 }
 
+
 /////////////
 //Adding routine
 //2.1- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
@@ -56,7 +56,6 @@ TEST_F(CalendarRoutineTest, add_routine_checkEvent) {
     ASSERT_EQ(true, is_active);
 }
 
-
 //2.2- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
 TEST_F(CalendarRoutineTest, add_routine_check_no_Event) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
@@ -68,6 +67,22 @@ TEST_F(CalendarRoutineTest, add_routine_check_no_Event) {
     time_to_check.tm_mon = 8;
     bool is_active = calendar->is_event_active( time_to_check );
     ASSERT_EQ(false, is_active);
+}
+
+//2.3- If a user tries to add a routine twice, the routine is added only once.
+TEST_F(CalendarRoutineTest, add_routine_twice)
+{
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    auto calendar_ptr = calendar.get();
+    ASSERT_EQ( 0, Calendar_debug::get_routines_quantity(calendar_ptr));
+   
+    bool success = calendar->add_event( start_time, duration_in_minutes);
+    ASSERT_EQ( 1, Calendar_debug::get_routines_quantity(calendar_ptr));
+    ASSERT_EQ(true, success);
+    success = calendar->add_event( start_time, duration_in_minutes);
+    ASSERT_EQ(false, success);
+    ASSERT_EQ( 1, Calendar_debug::get_routines_quantity(calendar_ptr));
+    
 }
 
 ////////////

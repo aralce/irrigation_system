@@ -9,6 +9,7 @@
 #include <forward_list>
 #include <array>
 #include <iostream>
+#include <memory>
 
 class Calendar_routine
 {
@@ -28,9 +29,17 @@ public:
     bool remove_event(const tm time_in_event);
 
 private:
-    using calendar_pair = std::array<uint32_t, 2>;
-    using calendar_iter = std::forward_list<calendar_pair>::const_iterator;
-    std::forward_list<calendar_pair> _events_list{};
+    friend class Calendar_debug;
+    std::forward_list<std::array<uint32_t, 2>> _events_list{};
+    int _routines_quantity = 0;
 };
 
+class Calendar_debug
+{
+public:
+    static int get_routines_quantity(Calendar_routine *calendar){
+        Calendar_routine_annual *calendar_annual_ptr = static_cast<Calendar_routine_annual *>(calendar);
+        return calendar_annual_ptr->_routines_quantity;
+    }
+};
 #endif //CALENDAR_ROUTINE_H

@@ -12,6 +12,7 @@ constexpr int DURATION_ELEMENT = 1;
 constexpr int ELEMENT = 1;
 typedef enum{
     ERROR = 0,
+    IS_REPEATED = 0,
     OK
 }system_status_t;
 
@@ -24,9 +25,11 @@ static bool list_comp_function(calendar_pair list_element, uint32_t comp_val);
 /* ==== [Public functions] ================================================== */
 bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t duration_in_minutes)
 {
+    //Check the routine is not already in between elements.
+    if(is_event_active(start_time)) return IS_REPEATED;
+    
     uint32_t converted_start_time = tm_to_start_time(start_time);
     calendar_pair list_element{ converted_start_time, duration_in_minutes};
-    bool returnValue = OK;
     //catch exceptions if there is any. Return false if there is an exception
     try{
         //Look where to insert the routine in the list. The list is sorted by start_time.
@@ -38,12 +41,12 @@ bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t dura
             auto iter_to_insert = get_previous_element(_events_list, iter_matching_condition);
             _events_list.insert_after(iter_to_insert, move(list_element));
         }
-        return returnValue;
+        ++_routines_quantity;
+        return OK;
     }
     catch(...)
     {
-        returnValue = ERROR;
-        return returnValue;
+        return ERROR;
     }
 }
 
