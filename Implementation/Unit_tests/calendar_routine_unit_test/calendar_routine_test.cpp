@@ -51,22 +51,18 @@ TEST_F(CalendarRoutineTest, construct_anual_routines) {
 //2.1- Add a routine with a start time and a duration in minutes. Check if it is active in a valid time.
 TEST_F(CalendarRoutineTest, add_event_and_check_it) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
-    bool success = calendar->add_event( start_time, duration_in_minutes);
-    ASSERT_EQ(true, success);
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
     tm time_to_check = start_time;
-    bool is_active = calendar->is_event_active( time_to_check );
-    ASSERT_EQ(true, is_active);
+    ASSERT_TRUE(calendar->is_event_active(time_to_check));
 }
 
 //2.2- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
 TEST_F(CalendarRoutineTest, add_event_check_other) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
-    bool success = calendar->add_event( start_time, duration_in_minutes);
-    ASSERT_EQ(true, success);
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
     tm time_to_check = start_time;
     time_to_check.tm_mon -= 1;
-    bool is_active = calendar->is_event_active( time_to_check );
-    ASSERT_EQ(false, is_active);
+    ASSERT_FALSE(calendar->is_event_active(time_to_check));
 }
 
 //2.3- If a user tries to add a routine twice, the routine is added only once.
@@ -74,11 +70,9 @@ TEST_F(CalendarRoutineTest, add_same_event_twice) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
     ASSERT_EQ( 0, Calendar_debug::get_events_quantity(calendar_ptr));  
-    bool success = calendar->add_event( start_time, duration_in_minutes);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));
-    ASSERT_EQ(true, success);
-    success = calendar->add_event( start_time, duration_in_minutes);
-    ASSERT_EQ(false, success);
+    ASSERT_FALSE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));    
 }
 
@@ -87,13 +81,11 @@ TEST_F(CalendarRoutineTest, add_one_event_to_merge_two) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
     duration_in_minutes = 60;
-    bool success = calendar->add_event( start_time, duration_in_minutes);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));
-    ASSERT_EQ(true, success);
     start_time.tm_hour += 1;
     duration_in_minutes = 120;
-    success = calendar->add_event( start_time, duration_in_minutes);
-    ASSERT_EQ(true, success);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));   
 }
 
@@ -103,17 +95,14 @@ TEST_F(CalendarRoutineTest, add_one_event_to_merge_three) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
     duration_in_minutes = 60;
-    bool success = calendar->add_event( start_time, duration_in_minutes);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));
-    ASSERT_EQ(true, success);
     start_time.tm_hour += 2;
-    success = calendar->add_event( start_time, duration_in_minutes);
-    ASSERT_EQ(true, success);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 2, Calendar_debug::get_events_quantity(calendar_ptr));
     start_time.tm_hour -= 1; 
-    success = calendar->add_event( start_time, duration_in_minutes);
     //the 3rd event is adyacent to 1st and 2nd event, so the event must merge.
-    ASSERT_EQ(true, success);
+    ASSERT_TRUE(calendar->add_event( start_time, duration_in_minutes));
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));
 }
 
@@ -122,8 +111,7 @@ TEST_F(CalendarRoutineTest, add_MAX_events) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
     for(auto i = 0; i<MAX_EVENTS_ALLOW; ++i){
-        bool success = calendar->add_event(start_time, duration_in_minutes);
-        ASSERT_EQ(true, success);
+        ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
         ASSERT_EQ(i+1, Calendar_debug::get_events_quantity(calendar_ptr));
         start_time.tm_hour += 2;
         if(start_time.tm_hour>= 23)
@@ -132,8 +120,7 @@ TEST_F(CalendarRoutineTest, add_MAX_events) {
             ++start_time.tm_mon;
     }
     for(auto i = 0; i<MAX_EVENTS_ALLOW; ++i){
-        bool success = calendar->add_event(start_time, duration_in_minutes);
-        ASSERT_EQ(false, success);
+        ASSERT_FALSE(calendar->add_event(start_time, duration_in_minutes));
         ASSERT_EQ(MAX_EVENTS_ALLOW, Calendar_debug::get_events_quantity(calendar_ptr));
     }
 }
@@ -143,11 +130,10 @@ TEST_F(CalendarRoutineTest, add_MAX_events) {
 //3.1- Erase a routine with an instant included in the event to erase.
 TEST_F(CalendarRoutineTest, erase_event_check) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
-    calendar->add_event(start_time, duration_in_minutes);
-    ASSERT_EQ( true, calendar->is_event_active(start_time));
-
-    calendar->remove_event(start_time);
-    ASSERT_EQ( false, calendar->is_event_active(start_time));
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
+    ASSERT_TRUE(calendar->is_event_active(start_time));
+    ASSERT_TRUE(calendar->remove_event(start_time));
+    ASSERT_FALSE(calendar->is_event_active(start_time));
 }
 
 //3.2- Erase a routine on an empty list has no effect.
@@ -155,9 +141,21 @@ TEST_F(CalendarRoutineTest, erase_empty) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     Calendar_routine* calendar_ptr = calendar.get();
     ASSERT_EQ(0, Calendar_debug::get_events_quantity(calendar_ptr));
-    bool success = calendar->remove_event(start_time);
-    ASSERT_EQ(false, success);
+    ASSERT_FALSE(calendar->remove_event(start_time));
     ASSERT_EQ(0, Calendar_debug::get_events_quantity(calendar_ptr));
 }
 
 //3.3- Erase the same event twice, only erase the routine 1 time. The second attempt has no effect.
+TEST_F(CalendarRoutineTest, erase_same_event_twice) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    Calendar_routine* calendar_ptr = calendar.get();
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
+    ASSERT_EQ(1, Calendar_debug::get_events_quantity(calendar_ptr));
+    start_time.tm_mon++;
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
+    ASSERT_EQ(2, Calendar_debug::get_events_quantity(calendar_ptr));
+    ASSERT_TRUE(calendar->remove_event(start_time));
+    ASSERT_EQ(1, Calendar_debug::get_events_quantity(calendar_ptr));
+    ASSERT_FALSE(calendar->remove_event(start_time));
+    ASSERT_EQ(1, Calendar_debug::get_events_quantity(calendar_ptr));
+}
