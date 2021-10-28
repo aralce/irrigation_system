@@ -21,6 +21,14 @@
  * 3.2- Erase an event on an empty list has no effect.
  * 3.3- Erase the same event twice, only erase the routine 1 time. The second attempt has no effect.
  * 
+ * //Returning events:
+ * 4.1- if it is an empty routine. Returns {0,0}
+ * 4.1- Return an event, then return the next one.
+ * 4.2- If Return the last event, the next returned event is the first one.
+ * 4.3- Reset the returning event to start receiving from the first element.
+ * 4.4- Return from an event above or equal to a specific.
+ * 4.5- If was solicited a returned event above a specific time, call to return event returns the next event.
+ * 4.7- If was solicited a returned event above a specific time and the condition cannot meet, then the return value is {0,0} and the index holds 
  * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
