@@ -6,7 +6,7 @@
 
 /* ==== [Definitions] ======================================================= */
 using calendar_pair = std::array<uint32_t, 2>;
-using calendar_iter = std::forward_list<calendar_pair>::const_iterator;
+using calendar_iter = std::forward_list<calendar_pair>::iterator;
 using calendar_list = std::forward_list<calendar_pair>;
 constexpr int SHIFT_WORD = 16;
 constexpr int START_TIME_ELEMENT = 0;
@@ -15,48 +15,51 @@ constexpr int ELEMENT = 1;
 typedef enum{
     ERROR = 0,
     IS_REPEATED = 0,
+    NO_EVENT_TO_MERGE = 0,
+    MAX_EVENTS_REACH = 0,
     OK
 }return_status_t;
 
 /* ==== [Private functions declaration] ====================================== */
-static calendar_iter get_event_iter(const calendar_list& events_list, const tm time_in_event);
-static calendar_iter get_event_iter(const calendar_list& events_list, const calendar_pair& list_element);
-static calendar_iter get_previous_element(const calendar_list& events_list, calendar_iter element);
-static bool          merge_events(Calendar_routine_annual* calendar, calendar_list& events_list, calendar_pair& list_element);
-static uint32_t      tm_to_start_time(const tm start_time);
-static bool          list_comp_function(calendar_pair list_element, uint32_t comp_val);
+static bool             insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_pair& list_element);
+static calendar_iter    get_event_iter(calendar_list& events_list, const tm time_in_event);
+static calendar_iter    get_event_iter(calendar_list& events_list, const calendar_pair& list_element);
+static calendar_iter    get_previous_element(calendar_list& events_list, calendar_iter list_iter);
+static bool             merge_events(Calendar_routine_annual* calendar, calendar_list& events_list, calendar_pair& list_element);
+static uint32_t         tm_to_start_time(const tm start_time);
+static bool             list_comp_function(calendar_pair list_element, uint32_t comp_val);
 
 /* ==== [Public functions definition] ================================================== */
 bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t duration_in_minutes) {
     using namespace std;
-    uint32_t converted_start_time = tm_to_start_time(start_time);
-    calendar_pair list_element{ converted_start_time, duration_in_minutes};
-    
-    //Checks if the routine is not repited.
-    auto list_iter = find(_events_list.begin(), _events_list.end(), list_element);
-    if(list_iter != _events_list.end()) 
-        return IS_REPEATED;
-
-    //Checks if the routine must be merge
-    merge_events(this, _events_list, list_element);
-
-    //catch exceptions if there is any. Return false if there is an exception
     try{
+        if(_events_quantity >= MAX_EVENTS_ALLOW)
+            return MAX_EVENTS_REACH;
+        uint32_t converted_start_time = tm_to_start_time(start_time);
+        calendar_pair list_element{ converted_start_time, duration_in_minutes};    
+        //Checks if the routine is not repited.
+        auto list_iter = find(_events_list.begin(), _events_list.end(), list_element);
+        if(list_iter != _events_list.end()) 
+            return IS_REPEATED;
+        //Checks if the routine must be merge
+        auto last_event_quantity = _events_quantity;
+        for(auto i=0; i<last_event_quantity; ++i){
+            if( merge_events(this, _events_list, list_element) == NO_EVENT_TO_MERGE)
+                break;
+        }
         //Look where to insert the routine in the list. The list is sorted by start_time.
         auto iter_matching_condition = lower_bound(_events_list.begin(), _events_list.end(), converted_start_time, list_comp_function);
         if(_events_list.empty())
             _events_list.push_front(move(list_element));
-        else {
-            auto iter_to_insert = get_previous_element(_events_list, iter_matching_condition);
-            _events_list.insert_after(iter_to_insert, move(list_element));
-        }
+        else
+            insert_event(_events_list, iter_matching_condition, list_element);
         ++_events_quantity;
         return OK;
     }
     catch(...) {return ERROR;}   
 }
 
-bool Calendar_routine_annual::is_event_active(const tm time_in_event) const {
+bool Calendar_routine_annual::is_event_active(const tm time_in_event) {
     return get_event_iter(_events_list, time_in_event) != _events_list.end() ? true : false; 
 }
 
@@ -78,10 +81,19 @@ bool Calendar_routine_annual::remove_event(calendar_iter element) {
 
 /* ==== [Private functions] ================================================== */
 /**
+ * 
+*/
+static bool insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_pair& list_element) {
+    auto iter_to_insert = get_previous_element(events_list, list_iter);
+    events_list.insert_after(iter_to_insert, move(list_element));
+    return true;
+}
+/**
  * Looks for the event with time_in_event. Returns the first event found in the events_list.
  * If no envents match, returns events_list.end()
 */
-static calendar_iter get_event_iter(const calendar_list& events_list, const tm time_in_event) {
+//TODO: IMPORTANT!! THIS FUNCTION CAN BE OPTIMIZED TO START FROM THE LAST QUERY ITER
+static calendar_iter get_event_iter(calendar_list& events_list, const tm time_in_event) {
      uint32_t converted_time = tm_to_start_time(time_in_event);
      calendar_pair list_element{converted_time, 0};
      return get_event_iter(events_list, list_element);     
@@ -90,7 +102,7 @@ static calendar_iter get_event_iter(const calendar_list& events_list, const tm t
 /**
  * 
 */
-static calendar_iter get_event_iter(const calendar_list& events_list, const calendar_pair& list_element){
+static calendar_iter get_event_iter(calendar_list& events_list, const calendar_pair& list_element){
      uint32_t start_time_A = list_element[START_TIME_ELEMENT];
      uint32_t final_time_A = start_time_A + list_element[DURATION_ELEMENT];
      auto list_iter = events_list.begin();
@@ -115,9 +127,9 @@ static calendar_iter get_event_iter(const calendar_list& events_list, const cale
 /**
  * Returns an Iterator to the previous element in the event list based on the supplied element.
 */
-static calendar_iter get_previous_element(const calendar_list &events_list, calendar_iter element) {
-    auto items = distance(events_list.before_begin(), element) - ELEMENT;
-    auto previous_element = events_list.before_begin();
+static calendar_iter get_previous_element(calendar_list &events_list, calendar_iter list_iter) {
+    auto items = distance(events_list.before_begin(), list_iter) - ELEMENT;
+    calendar_iter previous_element = events_list.before_begin();
     advance(previous_element, items);
     return previous_element;
 }
@@ -129,8 +141,7 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
     //get iter that has a time in common with other event, in which intersectionAB != {0}  |event A (| intersectionAB |) event B|
     auto iter_of_list_match = get_event_iter(events_list, list_element);
     if(iter_of_list_match == events_list.end())
-        return false;    
-    
+        return false;       
     //process list_element to be unionAB
     uint32_t start_time_A = list_element[START_TIME_ELEMENT];
     uint32_t final_time_A = start_time_A +  list_element[DURATION_ELEMENT];
@@ -143,8 +154,9 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
     if(final_time_A < final_time_B)
         final_time_A = final_time_B;   
     assert(final_time_A - start_time_A >= 0);
-    list_element[DURATION_ELEMENT] = final_time_A - start_time_A;
-
+    list_element[DURATION_ELEMENT] = final_time_A - start_time_A;   
+    //insert element
+    insert_event(events_list, iter_of_list_match, list_element);
     //erase eventB from list
     calendar->remove_event(iter_of_list_match);
     return true;
