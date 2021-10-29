@@ -12,6 +12,8 @@ constexpr int SHIFT_WORD = 16;
 constexpr int START_TIME_ELEMENT = 0;
 constexpr int DURATION_ELEMENT = 1;
 constexpr int ELEMENT = 1;
+constexpr int MINUTES_IN_HOUR = 60; 
+constexpr int MINUTES_IN_DAY  = 24*MINUTES_IN_HOUR;
 typedef enum{
     ERROR = 0,
     IS_REPEATED = 0,
@@ -26,7 +28,8 @@ static calendar_iter    get_event_iter(calendar_list& events_list, const tm time
 static calendar_iter    get_event_iter(calendar_list& events_list, const calendar_array& list_element);
 static calendar_iter    get_previous_element(calendar_list& events_list, calendar_iter list_iter);
 static bool             merge_events(Calendar_routine_annual* calendar, calendar_list& events_list, calendar_array& list_element);
-static uint32_t         tm_to_start_time(const tm start_time);
+static uint32_t         tm_to_internal(const tm start_time);
+static tm               internal_to_tm(const uint32_t start_time);
 static bool             list_comp_function(calendar_array list_element, uint32_t comp_val);
 
 /* ==== [Public functions definition] ================================================== */
@@ -35,7 +38,7 @@ bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t dura
     try{
         if(_events_quantity >= MAX_EVENTS_ALLOW)
             return MAX_EVENTS_REACH;
-        uint32_t converted_start_time = tm_to_start_time(start_time);
+        uint32_t converted_start_time = tm_to_internal(start_time);
         calendar_array list_element{ converted_start_time, duration_in_minutes};    
         //Checks if the routine is not repited.
         auto list_iter = find(_events_list.begin(), _events_list.end(), list_element);
@@ -63,9 +66,11 @@ bool Calendar_routine_annual::is_event_active(const tm time_in_event) {
     return get_event_iter(_events_list, time_in_event) != _events_list.end() ? true : false; 
 }
 
-std::array<uint32_t, 2> Calendar_routine_annual::get_next_event() {
-    if(_events_quantity <= 0)
-        return {0,0};
+bool Calendar_routine_annual::get_next_event(std::pair<tm, uint32_t>& event_to_return) {
+    if(_events_quantity <= 0){
+        event_to_return.second = 0;
+        return false;
+    }
     //check _return_iter integrity
     if( std::distance(_events_list.begin(), _return_iter) == std::distance(_events_list.begin(), _events_list.end()))
         _return_iter = _events_list.begin();
@@ -74,8 +79,11 @@ std::array<uint32_t, 2> Calendar_routine_annual::get_next_event() {
         ++_return_iter;
     else
         _return_iter = std::next(_events_list.begin(), 0);
-    
-    return event;
+    //make the return value
+    tm start_time = internal_to_tm(event[START_TIME_ELEMENT]); 
+    event_to_return.first = std::move(start_time); 
+    event_to_return.second = event[DURATION_ELEMENT];  
+    return true;
 }
 
 bool Calendar_routine_annual::remove_event(const tm time_in_event) {
@@ -109,7 +117,7 @@ static bool insert_event(calendar_list& events_list, calendar_iter& list_iter, c
 */
 //TODO: IMPORTANT!! THIS FUNCTION CAN BE OPTIMIZED TO START FROM THE LAST QUERY ITER
 static calendar_iter get_event_iter(calendar_list& events_list, const tm time_in_event) {
-     uint32_t converted_time = tm_to_start_time(time_in_event);
+     uint32_t converted_time = tm_to_internal(time_in_event);
      calendar_array list_element{converted_time, 0};
      return get_event_iter(events_list, list_element);     
 }
@@ -178,7 +186,7 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
 }
 
 /**
- * tm_to_start_time: 
+ * tm_to_internal: 
  * Converts the start_time used for add_event and return a value to be stored in class
  * 
  * @param start_time: tm value to be converted.
@@ -187,12 +195,26 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
  *  -Bits 16-to-19: Number of month starting from 0.(e.g December == 11).
  *  
 */
-static uint32_t tm_to_start_time(const tm start_time) {  
+static uint32_t tm_to_internal(const tm start_time) {  
     uint32_t converted_time = start_time.tm_mon;
+    //convert to internal
     converted_time <<= SHIFT_WORD;
     converted_time &= 0xFFFF0000;
     converted_time += (24*60*start_time.tm_mday + 60*start_time.tm_hour + start_time.tm_min) & 0x0000FFFF;
     return converted_time;
+}
+
+/**
+ * 
+*/
+static tm internal_to_tm(const uint32_t start_time){
+    tm time_to_return = {0};
+    time_to_return.tm_mon = start_time >> SHIFT_WORD;
+    uint32_t total_minutes = start_time & 0x0000FFFF;
+    time_to_return.tm_min = total_minutes%MINUTES_IN_HOUR;
+    time_to_return.tm_hour = (total_minutes/MINUTES_IN_HOUR)%MINUTES_IN_DAY;
+    time_to_return.tm_mday = total_minutes/MINUTES_IN_DAY;
+    return std::move(time_to_return);
 }
 
 /** 
