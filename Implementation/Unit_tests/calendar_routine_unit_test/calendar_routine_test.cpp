@@ -184,26 +184,33 @@ TEST_F(CalendarRoutineTest, return_from_empty) {
 //4.2- Return an event, then return the next one. The recieve value is: pair<tm start_time, uint32_t duration_in_minutes>
 TEST_F(CalendarRoutineTest, return_first_and_next) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
-    std::pair<tm, uint32_t> event1{{0},0};
-    std::pair<tm, uint32_t> event2{{0},0};
     calendar->add_event(start_time, duration_in_minutes);
     start_time.tm_hour += 2;
     calendar->add_event(start_time, duration_in_minutes);
+    std::pair<tm, uint32_t> event1{{0},0};
     ASSERT_TRUE(calendar->get_next_event(event1));
     ASSERT_NE(0, event1.second);
+    std::pair<tm, uint32_t> event2{{0},0};
     ASSERT_TRUE(calendar->get_next_event(event2));
     ASSERT_NE(0, event2.second);
     ASSERT_NE(event2.first.tm_hour, event1.first.tm_hour);
 }
 
-// //4.3- If Return the last event, the next returned event is the first one.
-// TEST_F(CalendarRoutineTest, return_first_and_next) {
-//     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
-//     for(auto i=0; i<4; ++i){
-//         calendar->add_event(start_time, duration_in_minutes);
-//         start_time.tm_hour += 2;
-//     }
-// }
+//4.3- If Return the last event, the next returned event is the first one.
+TEST_F(CalendarRoutineTest, return_next_last) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    for(auto i=0; i<4; ++i){
+        calendar->add_event(start_time, duration_in_minutes);
+        start_time.tm_hour += 2;
+    }
+    std::pair<tm, uint32_t> first_event{{0},0};
+    ASSERT_TRUE(calendar->get_next_event(first_event));
+    std::pair<tm, uint32_t> last_event{{0},0};
+    for(auto i=0; i<4; ++i){
+        ASSERT_TRUE(calendar->get_next_event(last_event));
+    }
+    ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
+}
 
 
 //4.4- Reset the returning event to start receiving from the first element.
