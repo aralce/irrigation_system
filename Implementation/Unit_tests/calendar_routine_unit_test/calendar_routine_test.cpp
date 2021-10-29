@@ -15,6 +15,7 @@
  * 2.5- If a user adds an event that shares time with another event and such acts as a bridge with other events, 
  * then all events involved are merged as one.
  * 2.6- if MAX_EVENTS_ALLOW has been reached, add a event has no effect.
+ * TODO:2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
  * 
  * //Erasing events:
  * 3.1- Erase an event with an instant included in the event to erase.
@@ -22,8 +23,8 @@
  * 3.3- Erase the same event twice, only erase the routine 1 time. The second attempt has no effect.
  * 
  * //Returning events:
- * 4.1- if it is an empty routine. Returns {0,0}
- * 4.2- Return an event, then return the next one.
+ * 4.1- if it is an empty routine. Sets argument to {X,0} and the function returns false.
+ * 4.2- Return an event, then return the next one. The argument is set to: pair<tm start_time, uint32_t duration_in_minutes> and return true.
  * 4.3- If Return the last event, the next returned event is the first one.
  * 4.4- Reset the returning event to start receiving from the first element.
  * 4.5- Return from an event above or equal to a specific.
@@ -172,28 +173,38 @@ TEST_F(CalendarRoutineTest, erase_same_event_twice) {
 
 /////////////////
 //Returning events:
-//4.1- if it is an empty routine. Returns {0,0}
+//4.1- if it is an empty routine. Sets argument to {0,0} and the function returns false.
 TEST_F(CalendarRoutineTest, return_from_empty) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
-    std::array<uint32_t, 2> event = calendar->get_next_event();
-    ASSERT_EQ(0, event[START_TIME_ELEMENT]);
-    ASSERT_EQ(0, event[DURATION_ELEMENT]);
+    std::pair<tm, uint32_t> event_to_recive{{0},0};
+    ASSERT_FALSE(calendar->get_next_event(event_to_recive));
+    ASSERT_EQ(0, event_to_recive.second);
 }
 
-//4.2- Return an event, then return the next one.
+//4.2- Return an event, then return the next one. The recieve value is: pair<tm start_time, uint32_t duration_in_minutes>
 TEST_F(CalendarRoutineTest, return_first_and_next) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    std::pair<tm, uint32_t> event1{{0},0};
+    std::pair<tm, uint32_t> event2{{0},0};
     calendar->add_event(start_time, duration_in_minutes);
     start_time.tm_hour += 2;
     calendar->add_event(start_time, duration_in_minutes);
-    std::array<uint32_t, 2> event1 = calendar->get_next_event();
-    ASSERT_NE(0, event1[START_TIME_ELEMENT]);
-    std::array<uint32_t, 2> event2 = calendar->get_next_event();
-    ASSERT_NE(0, event2[START_TIME_ELEMENT]);
-    ASSERT_NE(event2[START_TIME_ELEMENT], event1[START_TIME_ELEMENT]);
+    ASSERT_TRUE(calendar->get_next_event(event1));
+    ASSERT_NE(0, event1.second);
+    ASSERT_TRUE(calendar->get_next_event(event2));
+    ASSERT_NE(0, event2.second);
+    ASSERT_NE(event2.first.tm_hour, event1.first.tm_hour);
 }
 
-//4.3- If Return the last event, the next returned event is the first one.
+// //4.3- If Return the last event, the next returned event is the first one.
+// TEST_F(CalendarRoutineTest, return_first_and_next) {
+//     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+//     for(auto i=0; i<4; ++i){
+//         calendar->add_event(start_time, duration_in_minutes);
+//         start_time.tm_hour += 2;
+//     }
+// }
+
 
 //4.4- Reset the returning event to start receiving from the first element.
 
