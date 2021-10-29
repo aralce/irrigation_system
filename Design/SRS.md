@@ -169,8 +169,9 @@ Requeriments
 ##### 3.4.6.2 Member functions: 
 - bool add_event( const tm start_time, const uint32_t minutes_duration ): Returns success or failure.
 - bool remove_event( const tm date_inside_event ): Returns succes or failure.
-- void is_event_active( const tm time_in_event )
-
+- bool is_event_active( const tm time_in_event ): Returns true if the event is active.
+- bool get_next_event( std::pair<tm, uint32_t>& event_to_return): pair.first=start_time, pair.second=minutes_duration. Returns failure if there is no events.
+- void reset_get_event(): Resets the index of get_next_event()
 
 #### 3.4.7 Storage Manager  
 - Manage storage in non-volatile memmory.  
