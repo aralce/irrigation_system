@@ -15,7 +15,7 @@
  * 2.5- If a user adds an event that shares time with another event and such acts as a bridge with other events, 
  * then all events involved are merged as one.
  * 2.6- if MAX_EVENTS_ALLOW has been reached, add a event has no effect.
- * TODO:2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
+ * 2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
  * 
  * //Erasing events:
  * 3.1- Erase an event with an instant included in the event to erase.
@@ -133,6 +133,15 @@ TEST_F(CalendarRoutineTest, add_MAX_events) {
         ASSERT_FALSE(calendar->add_event(start_time, duration_in_minutes));
         ASSERT_EQ(MAX_EVENTS_ALLOW, Calendar_debug::get_events_quantity(calendar_ptr));
     }
+}
+
+//2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
+TEST_F(CalendarRoutineTest, add_event_duration_zero) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
+    Calendar_routine* calendar_ptr = calendar.get();
+    ASSERT_EQ(0, Calendar_debug::get_events_quantity(calendar_ptr));
+    ASSERT_FALSE(calendar->add_event(start_time, 0));
+    ASSERT_EQ(0, Calendar_debug::get_events_quantity(calendar_ptr));
 }
 
 ////////////
@@ -257,3 +266,16 @@ TEST_F(CalendarRoutineTest, return_set_index) {
 }
 
 //4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect.
+TEST_F(CalendarRoutineTest, return_set_index_invalid) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    tm original_start_time = start_time;
+    for(auto i=0; i<3; ++i){
+        calendar->add_event(start_time, duration_in_minutes);
+        start_time.tm_hour += 2;
+    }
+    tm time_to_set_index = start_time;
+    calendar->set_get_event(time_to_set_index);
+    std::pair<tm, uint32_t> event;
+    calendar->get_next_event(event);
+    ASSERT_EQ(original_start_time.tm_hour , event.first.tm_hour);
+}
