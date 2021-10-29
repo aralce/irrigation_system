@@ -19,7 +19,7 @@ public:
     virtual ~Calendar_routine(){}
     virtual bool add_event(const tm start_time, const uint32_t duration_in_minutes) = 0;
     virtual bool is_event_active(const tm time_in_event) = 0;
-    virtual std::array<uint32_t, 2> get_next_event() = 0;
+    virtual bool get_next_event(std::pair<tm, uint32_t>& event_to_return) = 0;
     virtual bool remove_event(const tm time_in_event) = 0;
 };
 
@@ -29,7 +29,7 @@ public:
     Calendar_routine_annual() {}
     bool add_event(const tm start_time, const uint32_t duration_in_minutes) override;
     bool is_event_active(const tm time_in_event) override;
-    std::array<uint32_t, 2> get_next_event() override;
+    bool get_next_event(std::pair<tm, uint32_t>& event_to_return) override;
     bool remove_event(const tm time_in_event) override;
     bool remove_event(calendar_iter element);
 private:
