@@ -26,10 +26,9 @@
  * 4.1- if it is an empty routine. Sets argument to {X,0} and the function returns false.
  * 4.2- Return an event, then return the next one. The argument is set to: pair<tm start_time, uint32_t duration_in_minutes> and return true.
  * 4.3- If Return the last event, the next returned event is the first one.
- * 4.4- Reset the returning event to start receiving from the first element.
- * 4.5- Return from an event above or equal to a specific.
- * 4.6- If was solicited a returned event above a specific time, call to return event returns the next event.
- * 4.7- If was solicited a returned event above a specific time and the condition cannot meet, then the return value is {0,0} and the index holds 
+ * 4.4- Reset the returning event index to start receiving from the first element.
+ * 4.5- Set the returning event index to start receiving from an event above or equal to a specific.
+ * 4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect.
  * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
@@ -212,11 +211,49 @@ TEST_F(CalendarRoutineTest, return_next_last) {
     ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
 }
 
+//4.4- Reset the returning event index to start receiving from the first element.
+TEST_F(CalendarRoutineTest, return_restart) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    for(auto i=0; i<4; ++i){
+        calendar->add_event(start_time, duration_in_minutes);
+        start_time.tm_hour += 2;
+    }
+    std::pair<tm, uint32_t> first_event{{0},0};
+    ASSERT_TRUE(calendar->get_next_event(first_event));
+    calendar->reset_get_event();
+    std::pair<tm, uint32_t> last_event{{0},0};
+    ASSERT_TRUE(calendar->get_next_event(last_event));
+    ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
+}
 
 //4.4- Reset the returning event to start receiving from the first element.
+TEST_F(CalendarRoutineTest, return_restart__index) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    for(auto i=0; i<4; ++i){
+        calendar->add_event(start_time, duration_in_minutes);
+        start_time.tm_hour += 2;
+    }
+    std::pair<tm, uint32_t> first_event{{0},0};
+    ASSERT_TRUE(calendar->get_next_event(first_event));
+    calendar->reset_get_event();
+    std::pair<tm, uint32_t> last_event{{0},0};
+    ASSERT_TRUE(calendar->get_next_event(last_event));
+    ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
+}
 
-//4.5- Return from an event above or equal to a specific.
+//4.5- Set the returning event index to start receiving from an event above or equal to a specific.
+TEST_F(CalendarRoutineTest, return_set_index) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    tm time_to_set_index = start_time;
+    for(auto i=0; i<3; ++i){
+        calendar->add_event(start_time, duration_in_minutes);
+        start_time.tm_hour += 2;
+    }
+    time_to_set_index.tm_hour += 1; //increase the hour to not match the first event.
+    calendar->set_get_event(time_to_set_index);
+    std::pair<tm, uint32_t> event;
+    calendar->get_next_event(event);
+    ASSERT_EQ(time_to_set_index.tm_hour + 1, event.first.tm_hour); //compares with the second element. 
+}
 
-//4.6- If was solicited a returned event above a specific time, call to return event returns the next event.
-
-//4.7- If was solicited a returned event above a specific time and the condition cannot meet, then the return value is {0,0} and the index holds 
+//4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect.

@@ -20,6 +20,8 @@ public:
     virtual bool add_event(const tm start_time, const uint32_t duration_in_minutes) = 0;
     virtual bool is_event_active(const tm time_in_event) = 0;
     virtual bool get_next_event(std::pair<tm, uint32_t>& event_to_return) = 0;
+    virtual void reset_get_event() = 0;
+    virtual void set_get_event(const tm& time_to_set_index) = 0;
     virtual bool remove_event(const tm time_in_event) = 0;
 };
 
@@ -30,6 +32,8 @@ public:
     bool add_event(const tm start_time, const uint32_t duration_in_minutes) override;
     bool is_event_active(const tm time_in_event) override;
     bool get_next_event(std::pair<tm, uint32_t>& event_to_return) override;
+    void reset_get_event() override { if(_events_quantity>0) _return_iter = _events_list.begin();}
+    void set_get_event(const tm& time_to_set_index ) override;
     bool remove_event(const tm time_in_event) override;
     bool remove_event(calendar_iter element);
 private:

@@ -30,7 +30,7 @@ static calendar_iter    get_previous_element(calendar_list& events_list, calenda
 static bool             merge_events(Calendar_routine_annual* calendar, calendar_list& events_list, calendar_array& list_element);
 static uint32_t         tm_to_internal(const tm start_time);
 static tm               internal_to_tm(const uint32_t start_time);
-static bool             list_comp_function(calendar_array list_element, uint32_t comp_val);
+static bool             list_comp_lesser(calendar_array list_element, uint32_t comp_val);
 
 /* ==== [Public functions definition] ================================================== */
 bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t duration_in_minutes) {
@@ -51,7 +51,7 @@ bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t dura
                 break;
         }
         //Look where to insert the routine in the list. The list is sorted by start_time.
-        auto iter_matching_condition = lower_bound(_events_list.begin(), _events_list.end(), converted_start_time, list_comp_function);
+        auto iter_matching_condition = lower_bound(_events_list.begin(), _events_list.end(), converted_start_time, list_comp_lesser);
         if(_events_list.empty())
             _events_list.push_front(move(list_element));
         else
@@ -84,6 +84,13 @@ bool Calendar_routine_annual::get_next_event(std::pair<tm, uint32_t>& event_to_r
     event_to_return.first = std::move(start_time); 
     event_to_return.second = event[DURATION_ELEMENT];  
     return true;
+}
+
+void Calendar_routine_annual::set_get_event(const tm& time_to_set_index ){
+    uint32_t converted_time = tm_to_internal(time_to_set_index);
+    auto iter = std::lower_bound(_events_list.begin(), _events_list.end(), converted_time, list_comp_lesser);
+    if(iter != _events_list.end())
+        _return_iter = iter;
 }
 
 bool Calendar_routine_annual::remove_event(const tm time_in_event) {
@@ -220,7 +227,7 @@ static tm internal_to_tm(const uint32_t start_time){
 /** 
  * Function to use with STL algorithms
  */
-static bool list_comp_function(calendar_array list_element, uint32_t comp_val) {
+static bool list_comp_lesser(calendar_array list_element, uint32_t comp_val) {
     if(list_element[START_TIME_ELEMENT] < comp_val)
         return true;
     else
