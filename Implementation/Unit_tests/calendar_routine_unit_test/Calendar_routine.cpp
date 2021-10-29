@@ -19,6 +19,7 @@ typedef enum{
     IS_REPEATED = 0,
     NO_EVENT_TO_MERGE = 0,
     MAX_EVENTS_REACH = 0,
+    INVALID_DURATION = 0,
     OK
 }return_status_t;
 
@@ -36,10 +37,12 @@ static bool             list_comp_lesser(calendar_array list_element, uint32_t c
 bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t duration_in_minutes) {
     using namespace std;
     try{
-        if(_events_quantity >= MAX_EVENTS_ALLOW)
+        if(_events_quantity >= MAX_EVENTS_ALLOW) 
             return MAX_EVENTS_REACH;
+        if(duration_in_minutes == 0) 
+            return INVALID_DURATION; 
         uint32_t converted_start_time = tm_to_internal(start_time);
-        calendar_array list_element{ converted_start_time, duration_in_minutes};    
+        calendar_array list_element{ converted_start_time, duration_in_minutes};
         //Checks if the routine is not repited.
         auto list_iter = find(_events_list.begin(), _events_list.end(), list_element);
         if(list_iter != _events_list.end()) 
