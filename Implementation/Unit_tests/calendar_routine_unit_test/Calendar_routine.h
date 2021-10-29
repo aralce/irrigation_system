@@ -19,21 +19,24 @@ public:
     virtual ~Calendar_routine(){}
     virtual bool add_event(const tm start_time, const uint32_t duration_in_minutes) = 0;
     virtual bool is_event_active(const tm time_in_event) = 0;
+    virtual std::array<uint32_t, 2> get_next_event() = 0;
     virtual bool remove_event(const tm time_in_event) = 0;
 };
 
 class Calendar_routine_annual : public Calendar_routine
 {
 public:
-    Calendar_routine_annual(){}
+    Calendar_routine_annual() {}
     bool add_event(const tm start_time, const uint32_t duration_in_minutes) override;
     bool is_event_active(const tm time_in_event) override;
+    std::array<uint32_t, 2> get_next_event() override;
     bool remove_event(const tm time_in_event) override;
     bool remove_event(calendar_iter element);
 private:
     friend class Calendar_debug;
     std::forward_list<std::array<uint32_t, 2>> _events_list{};
     int _events_quantity = 0;
+    calendar_iter _return_iter;
 };
 
 class Calendar_debug

@@ -23,11 +23,11 @@
  * 
  * //Returning events:
  * 4.1- if it is an empty routine. Returns {0,0}
- * 4.1- Return an event, then return the next one.
- * 4.2- If Return the last event, the next returned event is the first one.
- * 4.3- Reset the returning event to start receiving from the first element.
- * 4.4- Return from an event above or equal to a specific.
- * 4.5- If was solicited a returned event above a specific time, call to return event returns the next event.
+ * 4.2- Return an event, then return the next one.
+ * 4.3- If Return the last event, the next returned event is the first one.
+ * 4.4- Reset the returning event to start receiving from the first element.
+ * 4.5- Return from an event above or equal to a specific.
+ * 4.6- If was solicited a returned event above a specific time, call to return event returns the next event.
  * 4.7- If was solicited a returned event above a specific time and the condition cannot meet, then the return value is {0,0} and the index holds 
  * 
  * ****************************************************************************
@@ -35,6 +35,8 @@
  * Email: ariel.cerfoglia@gmail.com
  * ****************************************************************************
 */ 
+constexpr int START_TIME_ELEMENT = 0;
+constexpr int DURATION_ELEMENT   = 1;
 
 class CalendarRoutineTest: public ::testing::Test {
 protected:
@@ -44,7 +46,7 @@ protected:
         start_time.tm_mon = 9;              
     }
     tm start_time{};
-    uint32_t duration_in_minutes = 60; 
+    uint32_t duration_in_minutes = 60;
 };
 
 /*STARTING TESTS*/
@@ -167,3 +169,36 @@ TEST_F(CalendarRoutineTest, erase_same_event_twice) {
     ASSERT_FALSE(calendar->remove_event(start_time));
     ASSERT_EQ(1, Calendar_debug::get_events_quantity(calendar_ptr));
 }
+
+/////////////////
+//Returning events:
+//4.1- if it is an empty routine. Returns {0,0}
+TEST_F(CalendarRoutineTest, return_from_empty) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    std::array<uint32_t, 2> event = calendar->get_next_event();
+    ASSERT_EQ(0, event[START_TIME_ELEMENT]);
+    ASSERT_EQ(0, event[DURATION_ELEMENT]);
+}
+
+//4.2- Return an event, then return the next one.
+TEST_F(CalendarRoutineTest, return_first_and_next) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
+    calendar->add_event(start_time, duration_in_minutes);
+    start_time.tm_hour += 2;
+    calendar->add_event(start_time, duration_in_minutes);
+    std::array<uint32_t, 2> event1 = calendar->get_next_event();
+    ASSERT_NE(0, event1[START_TIME_ELEMENT]);
+    std::array<uint32_t, 2> event2 = calendar->get_next_event();
+    ASSERT_NE(0, event2[START_TIME_ELEMENT]);
+    ASSERT_NE(event2[START_TIME_ELEMENT], event1[START_TIME_ELEMENT]);
+}
+
+//4.3- If Return the last event, the next returned event is the first one.
+
+//4.4- Reset the returning event to start receiving from the first element.
+
+//4.5- Return from an event above or equal to a specific.
+
+//4.6- If was solicited a returned event above a specific time, call to return event returns the next event.
+
+//4.7- If was solicited a returned event above a specific time and the condition cannot meet, then the return value is {0,0} and the index holds 
