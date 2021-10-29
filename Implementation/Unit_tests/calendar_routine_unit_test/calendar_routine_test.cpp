@@ -27,8 +27,8 @@
  * 4.2- Return an event, then return the next one. The argument is set to: pair<tm start_time, uint32_t duration_in_minutes> and return true.
  * 4.3- If Return the last event, the next returned event is the first one.
  * 4.4- Reset the returning event index to start receiving from the first element.
- * 4.5- Set the returning event index to start receiving from an event above or equal to a specific.
- * 4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect.
+ * 4.5- Set the returning event index to start receiving from an event above or equal to a specific start time. Returns true if success.
+ * 4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect and returns false.
  * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
@@ -221,7 +221,7 @@ TEST_F(CalendarRoutineTest, return_next_last) {
 }
 
 //4.4- Reset the returning event index to start receiving from the first element.
-TEST_F(CalendarRoutineTest, return_restart) {
+TEST_F(CalendarRoutineTest, return_restart_index) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     for(auto i=0; i<4; ++i){
         calendar->add_event(start_time, duration_in_minutes);
@@ -235,22 +235,7 @@ TEST_F(CalendarRoutineTest, return_restart) {
     ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
 }
 
-//4.4- Reset the returning event to start receiving from the first element.
-TEST_F(CalendarRoutineTest, return_restart__index) {
-    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
-    for(auto i=0; i<4; ++i){
-        calendar->add_event(start_time, duration_in_minutes);
-        start_time.tm_hour += 2;
-    }
-    std::pair<tm, uint32_t> first_event{{0},0};
-    ASSERT_TRUE(calendar->get_next_event(first_event));
-    calendar->reset_get_event();
-    std::pair<tm, uint32_t> last_event{{0},0};
-    ASSERT_TRUE(calendar->get_next_event(last_event));
-    ASSERT_EQ(first_event.first.tm_hour, last_event.first.tm_hour);
-}
-
-//4.5- Set the returning event index to start receiving from an event above or equal to a specific.
+//4.5- Set the returning event index to start receiving from an event above or equal to a specific start time. Returns true if success.
 TEST_F(CalendarRoutineTest, return_set_index) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     tm time_to_set_index = start_time;
@@ -259,13 +244,13 @@ TEST_F(CalendarRoutineTest, return_set_index) {
         start_time.tm_hour += 2;
     }
     time_to_set_index.tm_hour += 1; //increase the hour to not match the first event.
-    calendar->set_get_event(time_to_set_index);
+    ASSERT_TRUE(calendar->set_get_event(time_to_set_index));
     std::pair<tm, uint32_t> event;
     calendar->get_next_event(event);
     ASSERT_EQ(time_to_set_index.tm_hour + 1, event.first.tm_hour); //compares with the second element. 
 }
 
-//4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect.
+//4.6- If was set a returned event index above a specific time and the condition cannot be met, then the function has no effect and returns false.
 TEST_F(CalendarRoutineTest, return_set_index_invalid) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     tm original_start_time = start_time;
@@ -274,7 +259,7 @@ TEST_F(CalendarRoutineTest, return_set_index_invalid) {
         start_time.tm_hour += 2;
     }
     tm time_to_set_index = start_time;
-    calendar->set_get_event(time_to_set_index);
+    ASSERT_FALSE(calendar->set_get_event(time_to_set_index));
     std::pair<tm, uint32_t> event;
     calendar->get_next_event(event);
     ASSERT_EQ(original_start_time.tm_hour , event.first.tm_hour);
