@@ -171,7 +171,9 @@ Requeriments
 - bool remove_event( const tm date_inside_event ): Returns succes or failure.
 - bool is_event_active( const tm time_in_event ): Returns true if the event is active.
 - bool get_next_event( std::pair<tm, uint32_t>& event_to_return): pair.first=start_time, pair.second=minutes_duration. Returns failure if there is no events.
+- bool set_get_event( const tm& time_to_set_index ): Set the index of get_next_event(). Returns success or failure.
 - void reset_get_event(): Resets the index of get_next_event()
+
 
 #### 3.4.7 Storage Manager  
 - Manage storage in non-volatile memmory.  
