@@ -20,11 +20,12 @@ typedef enum{
     NO_EVENT_TO_MERGE = 0,
     MAX_EVENTS_REACH = 0,
     INVALID_DURATION = 0,
+    INVALID_INDEX_TO_SET = 0,
     OK
 }return_status_t;
 
 /* ==== [Private functions declaration] ====================================== */
-static bool             insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_array& list_element);
+static void             insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_array& list_element);
 static calendar_iter    get_event_iter(calendar_list& events_list, const tm time_in_event);
 static calendar_iter    get_event_iter(calendar_list& events_list, const calendar_array& list_element);
 static calendar_iter    get_previous_element(calendar_list& events_list, calendar_iter list_iter);
@@ -72,7 +73,7 @@ bool Calendar_routine_annual::is_event_active(const tm time_in_event) {
 bool Calendar_routine_annual::get_next_event(std::pair<tm, uint32_t>& event_to_return) {
     if(_events_quantity <= 0){
         event_to_return.second = 0;
-        return false;
+        return ERROR;
     }
     //check _return_iter integrity
     if( std::distance(_events_list.begin(), _return_iter) == std::distance(_events_list.begin(), _events_list.end()))
@@ -86,14 +87,16 @@ bool Calendar_routine_annual::get_next_event(std::pair<tm, uint32_t>& event_to_r
     tm start_time = internal_to_tm(event[START_TIME_ELEMENT]); 
     event_to_return.first = std::move(start_time); 
     event_to_return.second = event[DURATION_ELEMENT];  
-    return true;
+    return OK;
 }
 
-void Calendar_routine_annual::set_get_event(const tm& time_to_set_index ){
+bool Calendar_routine_annual::set_get_event(const tm& time_to_set_index ){
     uint32_t converted_time = tm_to_internal(time_to_set_index);
     auto iter = std::lower_bound(_events_list.begin(), _events_list.end(), converted_time, list_comp_lesser);
-    if(iter != _events_list.end())
-        _return_iter = iter;
+    if(iter == _events_list.end())
+        return INVALID_INDEX_TO_SET;
+    _return_iter = iter;
+    return OK;
 }
 
 bool Calendar_routine_annual::remove_event(const tm time_in_event) {
@@ -103,23 +106,22 @@ bool Calendar_routine_annual::remove_event(const tm time_in_event) {
 
 bool Calendar_routine_annual::remove_event(calendar_iter element) {
     if(element == _events_list.end() || element == _events_list.before_begin())
-        return false;
+        return ERROR;
     else if( element == _events_list.begin())
         _events_list.pop_front();
     else
         _events_list.erase_after(get_previous_element(_events_list, element));
     --_events_quantity;
-    return true;        
+    return OK;        
 }
 
 /* ==== [Private functions] ================================================== */
 /**
  * 
 */
-static bool insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_array& list_element) {
+static void insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_array& list_element) {
     auto iter_to_insert = get_previous_element(events_list, list_iter);
     events_list.insert_after(iter_to_insert, move(list_element));
-    return true;
 }
 /**
  * Looks for the event with time_in_event. Returns the first event found in the events_list.
@@ -174,7 +176,7 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
     //get iter that has a time in common with other event, in which intersectionAB != {0}  |event A (| intersectionAB |) event B|
     auto iter_of_list_match = get_event_iter(events_list, list_element);
     if(iter_of_list_match == events_list.end())
-        return false;       
+        return NO_EVENT_TO_MERGE;       
     //process list_element to be unionAB
     uint32_t start_time_A = list_element[START_TIME_ELEMENT];
     uint32_t final_time_A = start_time_A +  list_element[DURATION_ELEMENT];
@@ -192,7 +194,7 @@ static bool merge_events(Calendar_routine_annual* calendar, calendar_list& event
     insert_event(events_list, iter_of_list_match, list_element);
     //erase eventB from list
     calendar->remove_event(iter_of_list_match);
-    return true;
+    return OK;
 }
 
 /**
