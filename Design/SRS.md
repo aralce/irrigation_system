@@ -116,7 +116,7 @@ Requeriments
 - Facade to access system status holder, irrigation manager and control unit factory.
 
 ##### The class diagram of the control unit is:  
-![Control Unit](https://user-images.githubusercontent.com/72839552/139870713-e76b6790-cc2b-447f-85ea-6d55bf136c1a.jpg)
+![Control Unit](https://user-images.githubusercontent.com/72839552/139871059-822fb4b5-7936-456b-bcec-33c7b44d7d83.jpg)
 
 #### 3.4.2 Scheduler
 Requeriments
