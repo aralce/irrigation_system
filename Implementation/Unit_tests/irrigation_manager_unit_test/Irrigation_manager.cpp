@@ -32,3 +32,21 @@ bool Irrigation_manager::add_event(uint8_t zone_from_0, const tm start_time, con
         return false;
     return _calendar[zone_from_0]->add_event(start_time, duration_in_minutes);
 }
+
+bool Irrigation_manager::remove_event(uint8_t zone_from_0, const tm time_in_event){
+    if(zone_from_0 >= MAX_ZONES)
+        return false;
+    return _calendar[zone_from_0]->remove_event(time_in_event);
+}
+
+void Irrigation_manager::process_events(RTC& rtc){
+    tm event_time;
+    rtc.get_time(event_time);
+    for(auto i=0; i<MAX_ZONES; ++i){
+        bool is_event_active = _calendar[i]->is_event_active(event_time);
+        if(is_event_active && !_zones[i]->is_irrigating())
+            _zones[i]->irrigate(true);
+        else if( !is_event_active && _zones[i]->is_irrigating())
+            _zones[i]->irrigate(false);
+    }
+}

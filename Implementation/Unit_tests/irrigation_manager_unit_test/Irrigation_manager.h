@@ -7,6 +7,7 @@
 #include "Irrigation_manager_config.h"
 #include "mock-irrigation_zone.h"
 #include "mock-calendar_routine.h"
+#include "mock-RTC.h"
 
 class Irrigation_manager{
 public:
@@ -19,6 +20,8 @@ public:
     bool irrigate(uint8_t zone_from_0, bool must_irrigate);
     bool is_healthy(uint8_t* zone_with_error);
     bool add_event(uint8_t zone_from_0, const tm start_time, const uint32_t duration_in_minutes);
+    bool remove_event(uint8_t zone_from_0, const tm time_in_event);
+    void process_events(RTC& rtc);
 private:
     Irrigation_zone* _zones[MAX_ZONES];
     Calendar_routine* _calendar[MAX_ZONES];
