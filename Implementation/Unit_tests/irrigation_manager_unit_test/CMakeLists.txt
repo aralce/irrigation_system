@@ -22,6 +22,7 @@ enable_testing()
 add_executable(
   irrigation_manager_test
   irrigation_manager_test.cpp
+  irrigation_manager.cpp
 )
 target_link_libraries(
   irrigation_manager_test
