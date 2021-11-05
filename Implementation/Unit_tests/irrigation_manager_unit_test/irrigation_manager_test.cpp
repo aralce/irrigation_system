@@ -29,8 +29,13 @@
  * 5.1- If there is no event active, all irrigation zones must be inactive.
  * 5.2- If there is an event active in one irrigation zone, that irrigation zone turns on.
  * 5.3- If there is an event in more than one irrigation zone, those irrigation zones are active.
- *
+ * 5.4- If there is no event active and irrigation zones are irrigating, then irrigating zones are inactive.
  *  
+ * //Return events
+ * 6.1 Returns the next event active from the desired zone.
+ * 6.2 In a zone sets the next event to be return from a desired start_time.
+ * 6.3 In a zone restarts the index to get the next event from the first event.
+ * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
  * Email: ariel.cerfoglia@gmail.com
@@ -180,5 +185,63 @@ TEST_F(IrrigationZonesManagerTest, process_no_event_active){
    irr_manager.process_events(rtc);
 }
 //5.2- If there is an event active in one irrigation zone, that irrigation zone turns on.
+TEST_F(IrrigationZonesManagerTest, event_active_in_one_irrigation_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   MockRTC rtc;
+   constexpr uint8_t ZONE_ACTIVE = 3;
+   using ::testing::Return;
+   EXPECT_CALL(rtc, get_time)
+      .Times(1);
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      if(i != ZONE_ACTIVE){
+         EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), is_event_active)
+            .WillOnce(Return(false));
+         EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_irrigating)
+            .WillOnce(Return(false));
+      }else{
+         EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), is_event_active)
+            .WillOnce(Return(true));
+         EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_irrigating)
+            .WillOnce(Return(false));
+         EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(true));
+      }
+   }
+   irr_manager.process_events(rtc);
+}
 
 //5.3- If there is an event in more than one irrigation zone, those irrigation zones are active.
+TEST_F(IrrigationZonesManagerTest, event_active_in_several_irrigation_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   MockRTC rtc;
+   using ::testing::Return;
+   EXPECT_CALL(rtc, get_time)
+      .Times(1);
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), is_event_active)
+         .WillOnce(Return(true));
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_irrigating)
+         .WillOnce(Return(false));
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(true));
+   }
+   irr_manager.process_events(rtc);
+}
+
+//5.4- If there is no event active and irrigation zones are irrigating, then irrigating zones are inactive.}
+TEST_F(IrrigationZonesManagerTest, events_inactive_irrigation_zones_active){
+   Irrigation_manager irr_manager(zones, calendar);
+   MockRTC rtc;
+   using ::testing::Return;
+   EXPECT_CALL(rtc, get_time)
+      .Times(1);
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), is_event_active)
+         .WillOnce(Return(false));
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_irrigating)
+         .WillOnce(Return(true));
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(false));
+   }
+   irr_manager.process_events(rtc);
+}
