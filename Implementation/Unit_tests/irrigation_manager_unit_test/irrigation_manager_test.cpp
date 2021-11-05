@@ -126,8 +126,59 @@ TEST_F(IrrigationZonesManagerTest, add_event){
 }
 
 //4.2- Add an event to an invalid irrigation zone. Returns failure.
-
+TEST_F(IrrigationZonesManagerTest, add_event_in_invalid_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   tm event_time;
+   event_time.tm_year = 2021-1900;
+   event_time.tm_mon = 7;
+   event_time.tm_hour = 2;
+   uint32_t duration_in_minutes = 60;
+   ASSERT_FALSE(irr_manager.add_event(MAX_ZONES + 2, event_time, duration_in_minutes));
+}
 
 //4.3- Remove an event from an irrigation zone. Returns success
+TEST_F(IrrigationZonesManagerTest, remove_event){
+   Irrigation_manager irr_manager(zones, calendar);
+   tm event_time;
+   event_time.tm_year = 2021-1900;
+   event_time.tm_mon = 7;
+   event_time.tm_hour = 2;
+   using ::testing::Return;
+   for(auto i=0; i<MAX_ZONES; ++i){
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), remove_event)
+         .WillOnce(Return(true));
+      ASSERT_TRUE(irr_manager.remove_event(i, event_time));
+   }
+}
 
 //4.4- Remove an event from an invalid irrigation zone. Returns failure.
+TEST_F(IrrigationZonesManagerTest, remove_event_in_invalid_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   tm event_time;
+   event_time.tm_year = 2021-1900;
+   event_time.tm_mon = 7;
+   event_time.tm_hour = 2;
+   ASSERT_FALSE(irr_manager.remove_event(MAX_ZONES + 4, event_time));
+}
+
+///////////
+//Process events:
+//5.1- If there is no event active, all irrigation zones must be inactive.
+TEST_F(IrrigationZonesManagerTest, process_no_event_active){
+   Irrigation_manager irr_manager(zones, calendar);
+   MockRTC rtc;
+   using ::testing::Return;
+   EXPECT_CALL(rtc, get_time)
+      .Times(1);
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), is_event_active)
+         .WillOnce(Return(false));
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_irrigating)
+         .WillOnce(Return(false));
+   }
+   irr_manager.process_events(rtc);
+}
+//5.2- If there is an event active in one irrigation zone, that irrigation zone turns on.
+
+//5.3- If there is an event in more than one irrigation zone, those irrigation zones are active.
