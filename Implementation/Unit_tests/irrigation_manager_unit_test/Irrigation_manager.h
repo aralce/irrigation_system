@@ -3,9 +3,8 @@
 */
 #ifndef IRRIGATION_MANAGER_H
 #define IRRIGATION_MANAGER_H
+#include "Irrigation_manager_config.h"
 #include "mock-irrigation_zone.h"
-
-constexpr int MAX_ZONES = 8;
 
 class Irrigation_manager{
 public:
@@ -15,7 +14,8 @@ public:
     Irrigation_manager& operator=(Irrigation_manager&) = delete;
     Irrigation_manager(Irrigation_zone* zone[]);
     //Member functions
-    void irrigate(uint8_t zone_from_0, bool must_irrigate){ _zones[zone_from_0]->irrigate(must_irrigate); }
+    bool irrigate(uint8_t zone_from_0, bool must_irrigate);
+    bool is_healthy(uint8_t* zone_with_error);
 private:
     Irrigation_zone* _zones[MAX_ZONES];
 };
