@@ -2,6 +2,7 @@
 #include "mock-calendar_routine.h"
 #include "mock-irrigation_zone.h"
 #include "mock-RTC.h"
+#include "Irrigation_manager.h"
 
 /*************************
  *  Irrigation Manager Test
@@ -36,23 +37,36 @@
  * Email: ariel.cerfoglia@gmail.com
  * ****************************************************************************
 */ 
-constexpr int ZONES_NUM = 8;
 
 class IrrigationZonesManagerTest: public ::testing::Test{
 protected:
    void SetUp() override{
-      for(int i=0; i<ZONES_NUM; ++i)
+      for(int i=0; i<MAX_ZONES; ++i)
          zones[i] = new MockIrrigation_zone; 
    }
    void TearDown() override{
-      for(int i=0; i<ZONES_NUM; ++i)
+      for(int i=0; i<MAX_ZONES; ++i)
          delete zones[i];
    }
-   Irrigation_zone *zones[ZONES_NUM];
+   Irrigation_zone *zones[MAX_ZONES];
 };
 
 /*STARTING TESTS*/
 //1- Construct a calendar routine without data.
 TEST_F(IrrigationZonesManagerTest, construct_with_irrigation_zones){
-   //Irrigation_Manager irr_manager(Irrigation_zone* zones[]);
+   Irrigation_manager irr_manager(zones);
 }
+
+///////////////////////////////////
+//Manual control of Irrigation Zones:
+//2.1- Set an irrigation zone to irrigate.
+TEST_F(IrrigationZonesManagerTest, irrigate_zone){
+   Irrigation_manager irr_manager(zones);  
+   for(auto i=0; i<MAX_ZONES; ++i){
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(true))
+         .Times(1);
+      irr_manager.irrigate(i, true);
+   }
+}
+//2.2- Stop to irrigate an irrigation zone that is irrigating.
+//2.3- Set and stop an invalid irrigation zone has no effect. The system notify the failure.
