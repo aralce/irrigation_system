@@ -9,12 +9,12 @@
 class RTC{
 public:
     virtual ~RTC(){}
-    virtual tm get_time() = 0;
+    virtual void get_time(tm& time) = 0;
 };
 
 class MockRTC : public RTC{
 public:
-    MOCK_METHOD(tm, get_time, (), (override));
+    MOCK_METHOD(void, get_time, (tm& time), (override));
 };
 
 #endif

@@ -9,20 +9,20 @@
 class Calendar_routine{
 public:
     virtual ~Calendar_routine(){}
-    virtual bool add_event(const tm start_time, const uint32_t duration_in_minutes) = 0;
-    virtual bool is_event_active(const tm time_in_event) = 0;
+    virtual bool add_event(const tm& start_time, const uint32_t duration_in_minutes) = 0;
+    virtual bool is_event_active(const tm& time_in_event) = 0;
     virtual bool get_next_event() = 0;
     virtual bool set_get_event(const tm& time_to_set_index) = 0;
-    virtual bool remove_event(const tm time_in_event) = 0;
+    virtual bool remove_event(const tm& time_in_event) = 0;
 };
 
 class MockCalendar_routine: public Calendar_routine{
 public:
-    MOCK_METHOD(bool, add_event, (const tm start_time, const uint32_t duration_in_minutes), (override));
-    MOCK_METHOD(bool, is_event_active, (const tm time_in_event), (override));
+    MOCK_METHOD(bool, add_event, (const tm& start_time, const uint32_t duration_in_minutes), (override));
+    MOCK_METHOD(bool, is_event_active, (const tm& time_in_event), (override));
     MOCK_METHOD(bool, get_next_event, (), (override));
     MOCK_METHOD(bool, set_get_event, (const tm& time_to_set_index), (override));
-    MOCK_METHOD(bool, remove_event, (const tm time_in_event), (override));
+    MOCK_METHOD(bool, remove_event, (const tm& time_in_event), (override));
 };
 
 #endif
