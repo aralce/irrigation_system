@@ -12,9 +12,8 @@
  * 1- Construct a irrigation manager with irrigation zones.
  * 
  * //Manual control of Irrigation Zones:
- * 2.1- Set an irrigation zone to irrigate.
- * 2.2- Stop to irrigate an irrigation zone that is irrigating.
- * 2.3- Set and stop an invalid irrigation zone has no effect. The system notify the failure.
+ * 2.1- Set an irrigation zone to irrigate. Then stop to irrigate the zone.
+ * 2.2- Set and stop an invalid irrigation zone has no effect. The system notify the failure.
  * 
  * //Check irrigation zones health:
  * 3.1- If there is any irrigation zone with malfunctions. The system notify the failure
@@ -59,14 +58,45 @@ TEST_F(IrrigationZonesManagerTest, construct_with_irrigation_zones){
 
 ///////////////////////////////////
 //Manual control of Irrigation Zones:
-//2.1- Set an irrigation zone to irrigate.
+//2.1- Set an irrigation zone to irrigate. Then stop to irrigate the zone.
 TEST_F(IrrigationZonesManagerTest, irrigate_zone){
    Irrigation_manager irr_manager(zones);  
    for(auto i=0; i<MAX_ZONES; ++i){
       EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(true))
          .Times(1);
       irr_manager.irrigate(i, true);
+      EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(false))
+         .Times(1);
+      irr_manager.irrigate(i, false);
    }
 }
-//2.2- Stop to irrigate an irrigation zone that is irrigating.
-//2.3- Set and stop an invalid irrigation zone has no effect. The system notify the failure.
+
+//2.2- Set and stop an invalid irrigation zone has no effect. The system notify the failure.
+TEST_F(IrrigationZonesManagerTest, irrigate_invalid_zone){
+   Irrigation_manager irr_manager(zones);
+   ASSERT_FALSE(irr_manager.irrigate(MAX_ZONES + 1, true));
+   ASSERT_FALSE(irr_manager.irrigate(MAX_ZONES + 1, false));
+}
+
+////////////////////////////
+//Check irrigation zones health:
+//3.1- If there is any irrigation zone with malfunctions. The system notify the failure
+//and return number of irrigation zone.
+TEST_F(IrrigationZonesManagerTest, check_zone_health){
+   Irrigation_manager irr_manager(zones);
+   constexpr int zone_to_test = 2;
+   uint8_t zone_with_error;
+   using ::testing::Return;
+   for(auto i=0; i<MAX_ZONES; ++i){
+      if(i != zone_to_test)
+         EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_healthy())
+            .WillOnce(Return(true));
+      else{
+         EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), is_healthy())
+            .WillOnce(Return(false));
+         break; //when a zone with failure is found, the for needs to break
+      }
+   }
+   ASSERT_FALSE(irr_manager.is_healthy(&zone_with_error));
+   ASSERT_EQ(zone_to_test, zone_with_error);
+}
