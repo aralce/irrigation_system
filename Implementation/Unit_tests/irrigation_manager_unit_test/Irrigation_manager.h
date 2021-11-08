@@ -22,6 +22,9 @@ public:
     bool add_event(uint8_t zone_from_0, const tm start_time, const uint32_t duration_in_minutes);
     bool remove_event(uint8_t zone_from_0, const tm time_in_event);
     void process_events(RTC& rtc);
+    bool get_next_event(uint8_t zone_from_0, std::pair<tm, uint32_t>& event_to_return);
+    bool set_get_event(uint8_t zone_from_0, tm time_to_set_index);
+    bool reset_get_event(uint8_t zone_from_0);
 private:
     Irrigation_zone* _zones[MAX_ZONES];
     Calendar_routine* _calendar[MAX_ZONES];

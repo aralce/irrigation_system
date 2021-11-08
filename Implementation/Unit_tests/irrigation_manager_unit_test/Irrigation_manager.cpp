@@ -50,3 +50,18 @@ void Irrigation_manager::process_events(RTC& rtc){
             _zones[i]->irrigate(false);
     }
 }
+
+bool Irrigation_manager::get_next_event(uint8_t zone_from_0, std::pair<tm, uint32_t>& event_to_return){
+    if(zone_from_0 >= MAX_ZONES) return false;
+    return _calendar[zone_from_0]->get_next_event(event_to_return);
+}
+
+bool Irrigation_manager::set_get_event(uint8_t zone_from_0, tm time_to_set_index){
+    if(zone_from_0 >= MAX_ZONES) return false;
+    return _calendar[zone_from_0]->set_get_event(time_to_set_index);
+}
+
+bool Irrigation_manager::reset_get_event(uint8_t zone_from_0){
+    if(zone_from_0 >= MAX_ZONES) return false;
+    return _calendar[zone_from_0]->reset_get_event();
+}
