@@ -33,8 +33,11 @@
  *  
  * //Return events
  * 6.1 Returns the next event active from the desired zone.
- * 6.2 In a zone sets the next event to be return from a desired start_time.
- * 6.3 In a zone restarts the index to get the next event from the first event.
+ * 6.2 Return  the next event active from an invalid zone, returns failure and has no effect.
+ * 6.3 In a zone sets the next event to be return from a desired start_time.
+ * 6.4 Try to set the next event on an invalid zone, returns failure and has no effect.
+ * 6.5 In a zone restarts the index to get the next event from the first event.
+ * 6.6 Restart the index to get the next event from an invalid zone, returns failure and has no effect.
  * 
  * ****************************************************************************
  * Author: Ariel Cerfoglia
@@ -244,4 +247,61 @@ TEST_F(IrrigationZonesManagerTest, events_inactive_irrigation_zones_active){
       EXPECT_CALL(*dynamic_cast<MockIrrigation_zone*>(zones[i]), irrigate(false));
    }
    irr_manager.process_events(rtc);
+}
+
+/////////
+//Return events
+//6.1 Returns the next event active from the desired zone.
+TEST_F(IrrigationZonesManagerTest, return_next_event){
+   Irrigation_manager irr_manager(zones, calendar);
+   std::pair<tm, uint32_t> event_element;
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), get_next_event)
+         .WillOnce(Return(true));
+      ASSERT_TRUE(irr_manager.get_next_event(i, event_element));     
+   }
+}
+
+//6.2 Return  the next event active from an invalid zone, returns failure and has no effect.
+TEST_F(IrrigationZonesManagerTest, return_next_event_in_invalid_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   std::pair<tm, uint32_t> event_element;
+   ASSERT_FALSE(irr_manager.get_next_event(MAX_ZONES, event_element));
+}
+
+//6.3 In a zone sets the next event to be return from a desired start_time.
+TEST_F(IrrigationZonesManagerTest, set_next_event_custom_time){
+   Irrigation_manager irr_manager(zones, calendar);
+   tm time_to_set_index;
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), set_get_event)
+         .WillOnce(Return(true));
+      ASSERT_TRUE(irr_manager.set_get_event(i, time_to_set_index));
+   }
+}
+
+//6.4 Try to set the next event on an invalid zone, returns failure and has no effect.
+TEST_F(IrrigationZonesManagerTest, set_next_event_custom_time_in_invalid_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   tm time_to_set_index;
+   ASSERT_FALSE(irr_manager.set_get_event(MAX_ZONES, time_to_set_index));
+}
+
+//6.5 In a zone restarts the index to get the next event from the first event.
+TEST_F(IrrigationZonesManagerTest, reset_get_next_event){
+   Irrigation_manager irr_manager(zones, calendar);
+   for(auto i=0; i<MAX_ZONES; ++i){
+      using ::testing::Return;
+      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), reset_get_event)
+         .WillOnce(Return(true));
+      ASSERT_TRUE(irr_manager.reset_get_event(i));
+   }
+}
+
+//6.6 Restart the index to get the next event from an invalid zone, returns failure and has no effect.
+TEST_F(IrrigationZonesManagerTest, reset_get_next_event_in_invalid_zone){
+   Irrigation_manager irr_manager(zones, calendar);
+   ASSERT_FALSE(irr_manager.reset_get_event(MAX_ZONES));
 }
