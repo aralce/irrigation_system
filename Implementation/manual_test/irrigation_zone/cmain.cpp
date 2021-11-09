@@ -1,11 +1,11 @@
 
 #include "cmain.h"
-#include "../../manual_test/Actuator/Actuator_manual_test.h"
+#include "Actuator_manual_test.h"
 #include "cmsis_os.h"
-#include "../../classes/Sensor.h"
-#include "../../manual_test/Sensor/Sensor_manual_test.h"
-#include "../../classes/irrigation_zone.h"
-#include "../../manual_test/irrigation_zone/irrigation_zone_manual_test.h"
+#include "Sensor.h"
+#include "Sensor_manual_test.h"
+#include "irrigation_zone.h"
+#include "irrigation_zone_manual_test.h"
 
 void * operator new( size_t size )
 {

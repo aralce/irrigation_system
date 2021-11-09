@@ -1,7 +1,7 @@
 
 #include "cmain.h"
 
-#include "../../classes/sensor.h"
+#include "Sensor.h"
 #include "cmsis_os.h"
 #include "Sensor_manual_test.h"
 

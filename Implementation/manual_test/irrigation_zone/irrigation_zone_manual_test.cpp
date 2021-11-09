@@ -2,9 +2,9 @@
 
 #include "cmsis_os.h"
 #include "stm32f4xx_hal.h"
-#include "../../classes/Sensor.h"
-#include "../../classes/Actuator.h"
-#include "../../classes/irrigation_zone.h"
+#include "Sensor.h"
+#include "Actuator.h"
+#include "irrigation_zone.h"
 
 extern UART_HandleTypeDef huart1;
 

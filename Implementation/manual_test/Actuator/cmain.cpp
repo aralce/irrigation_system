@@ -1,10 +1,7 @@
-
 #include "cmain.h"
-
-#include "../../classes/sensor.h"
+#include "sensor.h"
 #include "cmsis_os.h"
-
-#include "../Sensor/Sensor_manual_test.h"
+#include "Sensor_manual_test.h"
 #include "Actuator_manual_test.h"
 
 void * operator new( size_t size )

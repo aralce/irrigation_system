@@ -1,9 +1,8 @@
 #include "Actuator_manual_test.h"
-
 #include "cmsis_os.h"
 #include "cmsis_os.h"
 #include "stm32f4xx_hal.h"
-#include "../../classes/Actuator.h"
+#include "Actuator.h"
 
 #define COUNT_OF(x) sizeof(x)/sizeof(x[0])
 
