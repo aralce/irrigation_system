@@ -37,7 +37,7 @@ static bool             list_comp_lesser(calendar_array list_element, uint32_t c
 /* ==== [Public functions definition] ================================================== */
 bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t duration_in_minutes) {
     using namespace std;
-    try{
+    //try{
         if(_events_quantity >= MAX_EVENTS_ALLOW) 
             return MAX_EVENTS_REACH;
         if(duration_in_minutes == 0) 
@@ -62,8 +62,8 @@ bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t dura
             insert_event(_events_list, iter_matching_condition, list_element);
         ++_events_quantity;
         return OK;
-    }
-    catch(...) {return ERROR;}   
+    //}
+    //catch(...) {return ERROR;}   
 }
 
 bool Calendar_routine_annual::is_event_active(const tm time_in_event) {
@@ -226,7 +226,7 @@ static tm internal_to_tm(const uint32_t start_time){
     time_to_return.tm_min = total_minutes%MINUTES_IN_HOUR;
     time_to_return.tm_hour = (total_minutes/MINUTES_IN_HOUR)%MINUTES_IN_DAY;
     time_to_return.tm_mday = total_minutes/MINUTES_IN_DAY;
-    return std::move(time_to_return);
+    return time_to_return;
 }
 
 /** 
