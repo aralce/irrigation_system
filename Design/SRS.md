@@ -147,16 +147,17 @@ Requeriments
 - Execute irrigation routines.  
 - Manage routines.  
 
-##### 3.4.5.1 Attributes: 
-- routine::iterator: foward_iterator returning pairs<time_t start_time, uint32_t duration_minutes>
+##### 3.4.5.1 Attributes: N/A
 
 ##### 3.4.5.2 Member functions:  
-- void irrigate( uint8_t zone_from_1, bool must_irrigate )
-- bool is_irrigating( uint8_t zone_from_1 )
-- void process_routine()
-- bool add_routine( uint8_t zone_from_1, time_t start_time, uint32_t duration_minutes ): Returns success or failure.
-- bool clean_routine( uint8_t zone_from_1, time_t time_in_routine ): Returns success or failure.
-- routine::iterator get_routines( uint8_t zone_from_1 )  
+- void irrigate( uint8_t zone_from_0, bool must_irrigate )
+- bool is_healthy( uint8_t zone_from_0 )
+- bool add_event( uint8_t zone_from_0, const tm start_time, const uint32_t duration_in_minutes);
+- bool remove_event( uint8_t zone_from_0, const tm time_in_event );
+- void process_events( RTC& rtc );
+- bool get_next_event( uint8_t zone_from_0, std::pair<tm, uint32_t>& event_to_return);
+- bool set_get_event( uint8_t zone_from_0, tm time_to_set_index);
+- bool reset_get_event( uint8_t zone_from_0);
 
 #### 3.4.6 Calendar routine
 Requeriments
@@ -173,22 +174,6 @@ Requeriments
 - bool get_next_event( std::pair<tm, uint32_t>& event_to_return): pair.first=start_time, pair.second=minutes_duration. Returns failure if there is no events.
 - bool set_get_event( const tm& time_to_set_index ): Set the index of get_next_event(). Returns success or failure.
 - void reset_get_event(): Resets the index of get_next_event()
-
-
-#### 3.4.7 Storage Manager  
-- Manage storage in non-volatile memmory.  
-##### 3.4.7.1 Attributes: N/A  
-##### 3.4.7.2 Member functions:  
-
-#### 3.4.8 Clock
-Requeriments
-- Give time
-- Set time  
-
-##### 3.4.8.1 Attributes: N/A  
-##### 3.4.8.2 Member functions:  
-- time_t get_time()
-- void set_time( time_t actual_time )
 
 #### 3.4.9 Irrigation Zone
 ![Irrigation Zone](https://user-images.githubusercontent.com/72839552/135307235-cac14ff7-a2c1-4bf9-91b7-f767d2379526.jpg)
