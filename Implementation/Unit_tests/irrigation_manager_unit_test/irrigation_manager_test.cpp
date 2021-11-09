@@ -294,8 +294,6 @@ TEST_F(IrrigationZonesManagerTest, reset_get_next_event){
    Irrigation_manager irr_manager(zones, calendar);
    for(auto i=0; i<MAX_ZONES; ++i){
       using ::testing::Return;
-      EXPECT_CALL(*dynamic_cast<MockCalendar_routine*>(calendar[i]), reset_get_event)
-         .WillOnce(Return(true));
       ASSERT_TRUE(irr_manager.reset_get_event(i));
    }
 }

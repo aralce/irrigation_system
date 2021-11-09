@@ -15,7 +15,7 @@ public:
     virtual bool is_event_active(const tm& time_in_event) = 0;
     virtual bool get_next_event(std::pair<tm, uint32_t>& event_to_return) = 0;
     virtual bool set_get_event(const tm& time_to_set_index) = 0;
-    virtual bool reset_get_event() = 0;
+    virtual void reset_get_event() = 0;
 };
 
 class MockCalendar_routine: public Calendar_routine{
@@ -25,7 +25,7 @@ public:
     MOCK_METHOD(bool, is_event_active, (const tm& time_in_event), (override));
     MOCK_METHOD(bool, get_next_event, ((std::pair<tm, uint32_t>&) event_to_return), (override));
     MOCK_METHOD(bool, set_get_event, (const tm& time_to_set_index), (override));
-    MOCK_METHOD(bool, reset_get_event, (), (override));
+    MOCK_METHOD(void, reset_get_event, (), (override));
 };
 
 #endif

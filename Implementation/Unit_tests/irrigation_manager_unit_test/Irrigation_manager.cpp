@@ -63,5 +63,6 @@ bool Irrigation_manager::set_get_event(uint8_t zone_from_0, tm time_to_set_index
 
 bool Irrigation_manager::reset_get_event(uint8_t zone_from_0){
     if(zone_from_0 >= MAX_ZONES) return false;
-    return _calendar[zone_from_0]->reset_get_event();
+    _calendar[zone_from_0]->reset_get_event();
+    return true;
 }
