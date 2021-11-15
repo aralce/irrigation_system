@@ -12,7 +12,7 @@ class Irrigation_zone
 public:
     explicit Irrigation_zone(Actuator *electrovalve, Actuator *pump) : _electrovalve(electrovalve), _pump(pump) {}
     Irrigation_zone() = delete;
-    bool is_irrigating(){ return _electrovalve->is_ON(); }
+    bool is_irrigating();
     void irrigate(bool must_irrigate);
     bool is_sensing_health();
     bool is_healthy();
