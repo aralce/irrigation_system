@@ -1,0 +1,6 @@
+#ifndef IRRIGATION_MANAGER_CONFIG_H
+#define IRRIGATION_MANAGER_CONFIG_H
+
+constexpr int MAX_ZONES = 8;
+
+#endif
