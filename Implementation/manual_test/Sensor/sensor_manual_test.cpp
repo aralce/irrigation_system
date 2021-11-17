@@ -1,8 +1,7 @@
 #include "Sensor_manual_test.h"
-
 #include "cmsis_os.h"
 #include "stm32f4xx_hal.h"
-#include "../../classes/Sensor.h"
+#include "Sensor.h"
 
 static Sensor *sensor[2];
 extern UART_HandleTypeDef huart1;

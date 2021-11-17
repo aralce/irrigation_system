@@ -1,5 +1,4 @@
 #include "irrigation_zone_manual_test.h"
-
 #include "cmsis_os.h"
 #include "stm32f4xx_hal.h"
 #include "Sensor.h"
