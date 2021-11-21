@@ -47,6 +47,6 @@
 //The initialization only has a sensor to test the healthy of system.
 void irrigation_manager_manual_test_init();
 void irrigation_manager_manual_test_run_1();
-//void irrigation_manager_manual_test_run_2();
+void irrigation_manager_manual_test_run_2();
 
 #endif //IRRIGATION_MANAGER_H
