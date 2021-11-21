@@ -26,8 +26,8 @@ typedef enum{
 
 /* ==== [Private functions declaration] ====================================== */
 static void             insert_event(calendar_list& events_list, calendar_iter& list_iter, calendar_array& list_element);
-static calendar_iter    get_event_iter(calendar_list& events_list, const tm time_in_event);
-static calendar_iter    get_event_iter(calendar_list& events_list, const calendar_array& list_element);
+static calendar_iter    get_event_iter(calendar_list& events_list, const tm time_in_event, bool *is_boundary = nullptr);
+static calendar_iter    get_event_iter(calendar_list& events_list, const calendar_array& list_element, bool *is_boundary = nullptr);
 static calendar_iter    get_previous_element(calendar_list& events_list, calendar_iter list_iter);
 static bool             merge_events(Calendar_routine_annual* calendar, calendar_list& events_list, calendar_array& list_element);
 static uint32_t         tm_to_internal(const tm start_time);
@@ -67,7 +67,13 @@ bool Calendar_routine_annual::add_event(const tm start_time, const uint32_t dura
 }
 
 bool Calendar_routine_annual::is_event_active(const tm time_in_event) {
-    return get_event_iter(_events_list, time_in_event) != _events_list.end() ? true : false; 
+    bool coincidence;
+    bool is_boundary;
+    coincidence = get_event_iter(_events_list, time_in_event, &is_boundary) != _events_list.end() ? true : false; 
+    if( coincidence && !is_boundary)
+        return true;
+    else
+        return false;
 }
 
 bool Calendar_routine_annual::get_next_event(std::pair<tm, uint32_t>& event_to_return) {
@@ -128,18 +134,20 @@ static void insert_event(calendar_list& events_list, calendar_iter& list_iter, c
  * If no envents match, returns events_list.end()
 */
 //TODO: IMPORTANT!! THIS FUNCTION CAN BE OPTIMIZED TO START FROM THE LAST QUERY ITER
-static calendar_iter get_event_iter(calendar_list& events_list, const tm time_in_event) {
+static calendar_iter get_event_iter(calendar_list& events_list, const tm time_in_event, bool *is_boundary) {
      uint32_t converted_time = tm_to_internal(time_in_event);
      calendar_array list_element{converted_time, 0};
-     return get_event_iter(events_list, list_element);     
+     return get_event_iter(events_list, list_element, is_boundary);     
 }
 
 /**
  * 
 */
-static calendar_iter get_event_iter(calendar_list& events_list, const calendar_array& list_element){
+static calendar_iter get_event_iter(calendar_list& events_list, const calendar_array& list_element, bool *is_boundary){
      uint32_t start_time_A = list_element[START_TIME_ELEMENT];
      uint32_t final_time_A = start_time_A + list_element[DURATION_ELEMENT];
+     if( is_boundary != nullptr )
+        *is_boundary = false;
      auto list_iter = events_list.begin();
      //checks if there is any intersection with other elements.
      for(; list_iter!= events_list.end(); ++list_iter) {
@@ -153,6 +161,8 @@ static calendar_iter get_event_iter(calendar_list& events_list, const calendar_a
          //|-------------------------------------(start_time_A)-------------------------(final_time_A)--|
          //|(start_time_B)------(final_time_B)----------------------------------------------------------|
          bool there_is_intersection = !(final_time_A < start_time_B || final_time_B < start_time_A);
+         if(final_time_B == start_time_A && is_boundary != nullptr) //Used to trunc in minutes instead of round.
+            *is_boundary = true;
          if(there_is_intersection)
             return list_iter;
      }
