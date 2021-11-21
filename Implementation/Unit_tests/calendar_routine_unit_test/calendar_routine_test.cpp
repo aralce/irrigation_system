@@ -9,13 +9,14 @@
  * 1- Construct a calendar routine without data.
  * //Adding events:
  * 2.1- Add an event with a start time and a duration in minutes. Check if it is active in a valid time.
- * 2.2- Add an event with a start time and a duration in minutes. Check if it is inactive in an invalid time.
- * 2.3- If a user tries to add an event twice, the event is added only once.
- * 2.4- If a user adds an event that shares time with another. The event is changed to merge both.
- * 2.5- If a user adds an event that shares time with another event and such acts as a bridge with other events, 
+ * 2.2- Add an event with a start time and a duration in minutes. Check if it is still active when it finish(checking boundaries).
+ * 2.3- Add an event with a start time and a duration in minutes. Check if it is inactive in an invalid time.
+ * 2.4- If a user tries to add an event twice, the event is added only once.
+ * 2.5- If a user adds an event that shares time with another. The event is changed to merge both.
+ * 2.6- If a user adds an event that shares time with another event and such acts as a bridge with other events, 
  * then all events involved are merged as one.
- * 2.6- if MAX_EVENTS_ALLOW has been reached, add a event has no effect.
- * 2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
+ * 2.7- if MAX_EVENTS_ALLOW has been reached, add a event has no effect.
+ * 2.8- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
  * 
  * //Erasing events:
  * 3.1- Erase an event with an instant included in the event to erase.
@@ -66,7 +67,17 @@ TEST_F(CalendarRoutineTest, add_event_and_check_it) {
     ASSERT_TRUE(calendar->is_event_active(time_to_check));
 }
 
-//2.2- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
+//2.2- Add an event with a start time and a duration in minutes. Check if it is still active when it finish(checking boundaries).
+TEST_F(CalendarRoutineTest, add_event_and_check_it_in_bounds) {
+    std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
+    duration_in_minutes = 30;
+    ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
+    tm time_to_check = start_time;
+    time_to_check.tm_min += duration_in_minutes;
+    ASSERT_FALSE(calendar->is_event_active(time_to_check));
+}
+
+//2.3- Add a routine with a start time and a duration in minutes. Check if it is inactive in an invalid time.
 TEST_F(CalendarRoutineTest, add_event_check_other) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
     ASSERT_TRUE(calendar->add_event(start_time, duration_in_minutes));
@@ -75,7 +86,7 @@ TEST_F(CalendarRoutineTest, add_event_check_other) {
     ASSERT_FALSE(calendar->is_event_active(time_to_check));
 }
 
-//2.3- If a user tries to add a routine twice, the routine is added only once.
+//2.4- If a user tries to add a routine twice, the routine is added only once.
 TEST_F(CalendarRoutineTest, add_same_event_twice) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
@@ -86,7 +97,7 @@ TEST_F(CalendarRoutineTest, add_same_event_twice) {
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));    
 }
 
-//2.4- If a user adds a routine that shares time with another. The routine is changed to merge both.
+//2.5- If a user adds a routine that shares time with another. The routine is changed to merge both.
 TEST_F(CalendarRoutineTest, add_one_event_to_merge_two) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
@@ -99,7 +110,7 @@ TEST_F(CalendarRoutineTest, add_one_event_to_merge_two) {
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));   
 }
 
-//2.5- If a user adds a routine that shares time with another routine and such acts as a bridge with other routines, 
+//2.6- If a user adds a routine that shares time with another routine and such acts as a bridge with other routines, 
 //then all routines involved are merged as one.
 TEST_F(CalendarRoutineTest, add_one_event_to_merge_three) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
@@ -116,7 +127,7 @@ TEST_F(CalendarRoutineTest, add_one_event_to_merge_three) {
     ASSERT_EQ( 1, Calendar_debug::get_events_quantity(calendar_ptr));
 }
 
-//2.6- If MAX_EVENTS_ALLOW has been reached, add a event has no effect.
+//2.7- If MAX_EVENTS_ALLOW has been reached, add a event has no effect.
 TEST_F(CalendarRoutineTest, add_MAX_events) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual};
     auto calendar_ptr = calendar.get();
@@ -135,7 +146,7 @@ TEST_F(CalendarRoutineTest, add_MAX_events) {
     }
 }
 
-//2.7- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
+//2.8- Add an event of duration 0 is considered invalid and has no effect. The function returns false.
 TEST_F(CalendarRoutineTest, add_event_duration_zero) {
     std::unique_ptr<Calendar_routine> calendar{new Calendar_routine_annual}; 
     Calendar_routine* calendar_ptr = calendar.get();
